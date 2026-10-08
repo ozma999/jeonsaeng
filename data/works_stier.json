@@ -1,0 +1,807 @@
+[
+ {
+  "rank": 1,
+  "title": "신의 탑",
+  "segment": "레전드",
+  "start": "2010",
+  "note": ""
+ },
+ {
+  "rank": 2,
+  "title": "외모지상주의",
+  "segment": "레전드",
+  "start": "2014",
+  "note": ""
+ },
+ {
+  "rank": 3,
+  "title": "화산귀환",
+  "segment": "레전드",
+  "start": "2021",
+  "note": ""
+ },
+ {
+  "rank": 4,
+  "title": "전지적 독자 시점",
+  "segment": "레전드",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 5,
+  "title": "유미의 세포들",
+  "segment": "레전드",
+  "start": "2015",
+  "note": ""
+ },
+ {
+  "rank": 6,
+  "title": "마음의 소리",
+  "segment": "레전드",
+  "start": "2006",
+  "note": ""
+ },
+ {
+  "rank": 7,
+  "title": "여신강림",
+  "segment": "레전드",
+  "start": "2018",
+  "note": ""
+ },
+ {
+  "rank": 8,
+  "title": "연애혁명",
+  "segment": "레전드",
+  "start": "2013",
+  "note": ""
+ },
+ {
+  "rank": 9,
+  "title": "신과 함께",
+  "segment": "레전드",
+  "start": "2010",
+  "note": ""
+ },
+ {
+  "rank": 10,
+  "title": "치즈인더트랩",
+  "segment": "레전드",
+  "start": "2010",
+  "note": ""
+ },
+ {
+  "rank": 11,
+  "title": "스위트홈",
+  "segment": "레전드",
+  "start": "2017",
+  "note": ""
+ },
+ {
+  "rank": 12,
+  "title": "지금 우리 학교는",
+  "segment": "레전드",
+  "start": "2009",
+  "note": ""
+ },
+ {
+  "rank": 13,
+  "title": "참교육",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 14,
+  "title": "노블레스",
+  "segment": "레전드",
+  "start": "2007",
+  "note": ""
+ },
+ {
+  "rank": 15,
+  "title": "갓 오브 하이스쿨",
+  "segment": "레전드",
+  "start": "2011",
+  "note": ""
+ },
+ {
+  "rank": 16,
+  "title": "싸움독학",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 17,
+  "title": "김부장",
+  "segment": "2019–22",
+  "start": "2022",
+  "note": ""
+ },
+ {
+  "rank": 18,
+  "title": "약한영웅",
+  "segment": "2013–18",
+  "start": "2018",
+  "note": "구간 경계"
+ },
+ {
+  "rank": 19,
+  "title": "마스크걸",
+  "segment": "2013–18",
+  "start": "2015",
+  "note": ""
+ },
+ {
+  "rank": 20,
+  "title": "지옥",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 21,
+  "title": "재혼황후",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 22,
+  "title": "정년이",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 23,
+  "title": "패션왕",
+  "segment": "2005–12",
+  "start": "2011",
+  "note": ""
+ },
+ {
+  "rank": 24,
+  "title": "광마회귀",
+  "segment": "2023–26",
+  "start": "2023",
+  "note": "구간 경계"
+ },
+ {
+  "rank": 25,
+  "title": "나노마신",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 26,
+  "title": "프리드로우",
+  "segment": "2013–18",
+  "start": "2014",
+  "note": ""
+ },
+ {
+  "rank": 27,
+  "title": "고수",
+  "segment": "2013–18",
+  "start": "2013",
+  "note": ""
+ },
+ {
+  "rank": 28,
+  "title": "복학왕",
+  "segment": "2013–18",
+  "start": "2014",
+  "note": ""
+ },
+ {
+  "rank": 29,
+  "title": "타인은 지옥이다",
+  "segment": "2013–18",
+  "start": "2018",
+  "note": ""
+ },
+ {
+  "rank": 30,
+  "title": "가비지타임",
+  "segment": "2013–18",
+  "start": "2018",
+  "note": "구간 경계"
+ },
+ {
+  "rank": 31,
+  "title": "덴마",
+  "segment": "2005–12",
+  "start": "2010",
+  "note": ""
+ },
+ {
+  "rank": 32,
+  "title": "내일",
+  "segment": "2013–18",
+  "start": "2017",
+  "note": ""
+ },
+ {
+  "rank": 33,
+  "title": "내 ID는 강남미인",
+  "segment": "2013–18",
+  "start": "2016",
+  "note": ""
+ },
+ {
+  "rank": 34,
+  "title": "호랑이형님",
+  "segment": "2013–18",
+  "start": "2015",
+  "note": ""
+ },
+ {
+  "rank": 35,
+  "title": "뷰티풀 군바리",
+  "segment": "2013–18",
+  "start": "2015",
+  "note": ""
+ },
+ {
+  "rank": 36,
+  "title": "무직백수 계백순",
+  "segment": "2023–26",
+  "start": "2023",
+  "note": ""
+ },
+ {
+  "rank": 37,
+  "title": "장씨세가 호위무사",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 38,
+  "title": "입학용병",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 39,
+  "title": "퀘스트지상주의",
+  "segment": "2019–22",
+  "start": "2022",
+  "note": ""
+ },
+ {
+  "rank": 40,
+  "title": "소녀의 세계",
+  "segment": "2013–18",
+  "start": "2015",
+  "note": ""
+ },
+ {
+  "rank": 41,
+  "title": "쿠베라",
+  "segment": "2005–12",
+  "start": "2010",
+  "note": ""
+ },
+ {
+  "rank": 42,
+  "title": "선천적 얼간이들",
+  "segment": "2005–12",
+  "start": "2011",
+  "note": ""
+ },
+ {
+  "rank": 43,
+  "title": "집이 없어",
+  "segment": "2013–18",
+  "start": "2018",
+  "note": "구간 경계"
+ },
+ {
+  "rank": 44,
+  "title": "바른연애 길잡이",
+  "segment": "2013–18",
+  "start": "2018",
+  "note": "구간 경계"
+ },
+ {
+  "rank": 45,
+  "title": "기기괴괴",
+  "segment": "2013–18",
+  "start": "2015",
+  "note": ""
+ },
+ {
+  "rank": 46,
+  "title": "윈드브레이커",
+  "segment": "2013–18",
+  "start": "2013",
+  "note": ""
+ },
+ {
+  "rank": 47,
+  "title": "더 복서",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 48,
+  "title": "스터디그룹",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 49,
+  "title": "이두나!",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 50,
+  "title": "육아일기",
+  "segment": "2023–26",
+  "start": "2023",
+  "note": ""
+ },
+ {
+  "rank": 51,
+  "title": "자기 자?",
+  "segment": "2023–26",
+  "start": "2024",
+  "note": ""
+ },
+ {
+  "rank": 52,
+  "title": "개꿈",
+  "segment": "2023–26",
+  "start": "2023",
+  "note": ""
+ },
+ {
+  "rank": 53,
+  "title": "만남어플 중독",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 54,
+  "title": "오! 나의 교주님",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 55,
+  "title": "괴력 난신",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 56,
+  "title": "절대회귀",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 57,
+  "title": "절대군림",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 58,
+  "title": "범죄도시0",
+  "segment": "2023–26",
+  "start": "2026",
+  "note": ""
+ },
+ {
+  "rank": 59,
+  "title": "앵무살수",
+  "segment": "2019–22",
+  "start": "2022",
+  "note": ""
+ },
+ {
+  "rank": 60,
+  "title": "인생존망",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 61,
+  "title": "삼국지톡",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 62,
+  "title": "내 여자친구는 상남자",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": ""
+ },
+ {
+  "rank": 63,
+  "title": "마루는 강쥐",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": ""
+ },
+ {
+  "rank": 64,
+  "title": "머니게임",
+  "segment": "2019–22",
+  "start": "2020",
+  "note": ""
+ },
+ {
+  "rank": 65,
+  "title": "쌉니다 천리마마트",
+  "segment": "2005–12",
+  "start": "2010",
+  "note": ""
+ },
+ {
+  "rank": 66,
+  "title": "와라! 편의점",
+  "segment": "2005–12",
+  "start": "2012",
+  "note": ""
+ },
+ {
+  "rank": 67,
+  "title": "하이브",
+  "segment": "2005–12",
+  "start": "2012",
+  "note": ""
+ },
+ {
+  "rank": 68,
+  "title": "닥터 프로스트",
+  "segment": "2005–12",
+  "start": "2011",
+  "note": ""
+ },
+ {
+  "rank": 69,
+  "title": "좋아? 죽어!",
+  "segment": "2023–26",
+  "start": "2024",
+  "note": ""
+ },
+ {
+  "rank": 70,
+  "title": "만취남녀",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 71,
+  "title": "말년용사",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 72,
+  "title": "천만배우의 딸이 되었다",
+  "segment": "2023–26",
+  "start": "2025",
+  "note": ""
+ },
+ {
+  "rank": 73,
+  "title": "신화급 귀속 아이템을 손에 넣었다",
+  "segment": "2023–26",
+  "start": "2023",
+  "note": "플랫폼"
+ },
+ {
+  "rank": 74,
+  "title": "정글쥬스",
+  "segment": "2023–26",
+  "start": "2023",
+  "note": "플랫폼"
+ },
+ {
+  "rank": 75,
+  "title": "개를 낳았다",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 76,
+  "title": "대학원 탈출일지",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": ""
+ },
+ {
+  "rank": 77,
+  "title": "세기말 풋사과 보습학원",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": ""
+ },
+ {
+  "rank": 78,
+  "title": "미래의 골동품 가게",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 79,
+  "title": "비질란테",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 80,
+  "title": "역대급 영지 설계사",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": ""
+ },
+ {
+  "rank": 81,
+  "title": "이번 생도 잘 부탁해",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": ""
+ },
+ {
+  "rank": 82,
+  "title": "1초",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 83,
+  "title": "사신소년",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": "구간 경계"
+ },
+ {
+  "rank": 84,
+  "title": "잔불의 기사",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": "플랫폼"
+ },
+ {
+  "rank": 85,
+  "title": "소녀재판",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 86,
+  "title": "아홉수 우리들",
+  "segment": "2019–22",
+  "start": "2019",
+  "note": ""
+ },
+ {
+  "rank": 87,
+  "title": "한림체육관",
+  "segment": "2019–22",
+  "start": "2021",
+  "note": "플랫폼"
+ },
+ {
+  "rank": 88,
+  "title": "가담항설",
+  "segment": "2013–18",
+  "start": "2016",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 89,
+  "title": "전자오락수호대",
+  "segment": "2013–18",
+  "start": "2014",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 90,
+  "title": "열렙전사",
+  "segment": "2013–18",
+  "start": "2015",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 91,
+  "title": "헬퍼",
+  "segment": "2005–12",
+  "start": "2012",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 92,
+  "title": "취사병 전설이 되다",
+  "segment": "2019–22",
+  "start": "2022",
+  "note": "구간 경계 · 추가 편입"
+ },
+ {
+  "rank": 93,
+  "title": "일렉시드",
+  "segment": "2013–18",
+  "start": "2018",
+  "note": "구간 경계 · 추가 편입"
+ },
+ {
+  "rank": 94,
+  "title": "용사가 돌아왔다",
+  "segment": "2013–18",
+  "start": "2017",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 95,
+  "title": "삼봉이발소",
+  "segment": "2005–12",
+  "start": "2007",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 96,
+  "title": "목욕의 신",
+  "segment": "2005–12",
+  "start": "2012",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 97,
+  "title": "가우스전자",
+  "segment": "2005–12",
+  "start": "2011",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 98,
+  "title": "하루만 네가 되고 싶어",
+  "segment": "2013–18",
+  "start": "2016",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 99,
+  "title": "신도림",
+  "segment": "2013–18",
+  "start": "2016",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 100,
+  "title": "랜덤채팅의 그녀",
+  "segment": "2013–18",
+  "start": "2014",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 101,
+  "title": "3단합체 김창남",
+  "segment": "2005–12",
+  "start": "2009",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 102,
+  "title": "놓지마 정신줄",
+  "segment": "2005–12",
+  "start": "2008",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 103,
+  "title": "생활의 참견",
+  "segment": "2005–12",
+  "start": "2008",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 104,
+  "title": "질풍기획",
+  "segment": "2005–12",
+  "start": "2007",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 105,
+  "title": "소녀더와일즈",
+  "segment": "2005–12",
+  "start": "2011",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 106,
+  "title": "낢이 사는 이야기",
+  "segment": "2005–12",
+  "start": "2007",
+  "note": "추가 편입"
+ },
+ {
+  "rank": 107,
+  "title": "보충 슬롯 1",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 108,
+  "title": "보충 슬롯 2",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 109,
+  "title": "보충 슬롯 3",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 110,
+  "title": "보충 슬롯 4",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 111,
+  "title": "보충 슬롯 5",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 112,
+  "title": "보충 슬롯 6",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 113,
+  "title": "보충 슬롯 7",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 114,
+  "title": "보충 슬롯 8",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ },
+ {
+  "rank": 115,
+  "title": "보충 슬롯 9",
+  "segment": "2023–26",
+  "start": "—",
+  "note": "자동 보충"
+ }
+]

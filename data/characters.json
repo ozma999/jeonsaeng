@@ -1,0 +1,1951 @@
+[
+ {
+  "id": "bam",
+  "name": "스물다섯번째 밤",
+  "work": "신의 탑",
+  "author": "SIU",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "판타지"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 4,
+   "S": 4,
+   "X": 2
+  },
+  "solve": "재능",
+  "emo": "감성",
+  "arc": "밑바닥성장",
+  "tags": [
+   "판타지체질",
+   "숨은실력자",
+   "단한사람",
+   "끝나지않았다"
+  ],
+  "scene": "한 소녀를 따라 탑에 들어온 소년",
+  "look": {
+   "hair": "short",
+   "vibe": "soft"
+  },
+  "relations": [
+   {
+    "id": "rachel",
+    "type": "집착과 엇갈림"
+   },
+   {
+    "id": "khun",
+    "type": "동료"
+   },
+   {
+    "id": "rak",
+    "type": "동료"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "rachel",
+  "name": "라헬",
+  "work": "신의 탑",
+  "author": "SIU",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "판타지"
+  ],
+  "role": "흑막",
+  "axes": {
+   "E": 2,
+   "M": 1,
+   "S": 4,
+   "X": 2
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "밑바닥성장",
+  "tags": [
+   "웃으며기억한다",
+   "재앙의근원",
+   "판타지체질"
+  ],
+  "scene": "별을 보기 위해 탑을 오르려는 소녀",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [
+   {
+    "id": "bam",
+    "type": "집착과 엇갈림"
+   }
+  ],
+  "ending": "",
+  "spoiler": 1,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "khun",
+  "name": "쿤 아게로 아그니스",
+  "work": "신의 탑",
+  "author": "SIU",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "판타지"
+  ],
+  "role": "조력자",
+  "axes": {
+   "E": 3,
+   "M": 3,
+   "S": 4,
+   "X": 2
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "평탄",
+  "tags": [
+   "작전가",
+   "기록하는자",
+   "동료애",
+   "판타지체질"
+  ],
+  "scene": "밤의 곁에서 판을 짜는 전략가",
+  "look": {
+   "hair": "short",
+   "vibe": "sharp"
+  },
+  "relations": [
+   {
+    "id": "bam",
+    "type": "동료"
+   },
+   {
+    "id": "rak",
+    "type": "동료"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "rak",
+  "name": "라크 레크레이셔",
+  "work": "신의 탑",
+  "author": "SIU",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "판타지"
+  ],
+  "role": "감초",
+  "axes": {
+   "E": 5,
+   "M": 3,
+   "S": 2,
+   "X": 5
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "무력파",
+   "바로말한다",
+   "귀찮은녀석",
+   "동료애"
+  ],
+  "scene": "모두를 거북이라 부르는 악어 전사",
+  "look": {},
+  "relations": [
+   {
+    "id": "bam",
+    "type": "동료"
+   },
+   {
+    "id": "khun",
+    "type": "동료"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "hyungseok",
+  "name": "박형석",
+  "work": "외모지상주의",
+  "author": "박태준",
+  "year": 2014,
+  "tier": "S",
+  "world": [
+   "학원",
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 5,
+   "S": 3,
+   "X": 2
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "숨겨진강자",
+  "tags": [
+   "정체를숨김",
+   "혼자삭인다",
+   "동료애",
+   "학원물체질"
+  ],
+  "scene": "두 개의 몸으로 살아가는 고등학생",
+  "look": {},
+  "relations": [
+   {
+    "id": "vasco",
+    "type": "친구"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "vasco",
+  "name": "바스코",
+  "work": "외모지상주의",
+  "author": "박태준",
+  "year": 2014,
+  "tier": "S",
+  "world": [
+   "학원",
+   "현대"
+  ],
+  "role": "감초",
+  "axes": {
+   "E": 5,
+   "M": 5,
+   "S": 2,
+   "X": 5
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "무력파",
+   "앞장선다",
+   "바로말한다",
+   "분위기메이커"
+  ],
+  "scene": "정의를 외치며 주먹부터 나가는 사나이",
+  "look": {
+   "hair": "short"
+  },
+  "relations": [
+   {
+    "id": "hyungseok",
+    "type": "친구"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "chungmyung",
+  "name": "청명",
+  "work": "화산귀환",
+  "author": "비가",
+  "year": 2021,
+  "tier": "S",
+  "world": [
+   "무협"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 4,
+   "M": 3,
+   "S": 3,
+   "X": 5
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "회귀",
+  "tags": [
+   "회귀자",
+   "무력파",
+   "바로말한다",
+   "귀찮은녀석",
+   "강호의피"
+  ],
+  "scene": "백 년 뒤 아이의 몸으로 깨어난 매화검존",
+  "look": {},
+  "relations": [
+   {
+    "id": "baekcheon",
+    "type": "같은 문파"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "baekcheon",
+  "name": "백천",
+  "work": "화산귀환",
+  "author": "비가",
+  "year": 2021,
+  "tier": "S",
+  "world": [
+   "무협"
+  ],
+  "role": "라이벌",
+  "axes": {
+   "E": 3,
+   "M": 5,
+   "S": 4,
+   "X": 3
+  },
+  "solve": "근성",
+  "emo": "츤데레",
+  "arc": "밑바닥성장",
+  "tags": [
+   "평생의라이벌",
+   "끝까지남는다",
+   "앞에나선다",
+   "강호의피"
+  ],
+  "scene": "체면과 책임을 짊어진 화산의 사숙",
+  "look": {},
+  "relations": [
+   {
+    "id": "chungmyung",
+    "type": "같은 문파"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "kimdokja",
+  "name": "김독자",
+  "work": "전지적 독자 시점",
+  "author": "슬리피-C(작화)",
+  "year": 2020,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "스릴러"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 4,
+   "S": 4,
+   "X": 1
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "숨겨진강자",
+  "tags": [
+   "모니터불빛",
+   "정체를숨김",
+   "기록하는자",
+   "동료애"
+  ],
+  "scene": "오래 읽어 온 소설이 현실이 된 단 한 명의 독자",
+  "look": {},
+  "relations": [
+   {
+    "id": "yjh",
+    "type": "동료이자 라이벌"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yjh",
+  "name": "유중혁",
+  "work": "전지적 독자 시점",
+  "author": "슬리피-C(작화)",
+  "year": 2020,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "스릴러"
+  ],
+  "role": "라이벌",
+  "axes": {
+   "E": 1,
+   "M": 3,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "무력",
+  "emo": "무표정",
+  "arc": "회귀",
+  "tags": [
+   "회귀자",
+   "무력파",
+   "혼자만의장소",
+   "생존자"
+  ],
+  "scene": "수없이 삶을 반복해 온 회귀자",
+  "look": {
+   "vibe": "sharp"
+  },
+  "relations": [
+   {
+    "id": "kimdokja",
+    "type": "동료이자 라이벌"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yumi",
+  "name": "김유미",
+  "work": "유미의 세포들",
+  "author": "이동건",
+  "year": 2015,
+  "tier": "S",
+  "world": [
+   "로맨스",
+   "일상"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 3,
+   "M": 4,
+   "S": 3,
+   "X": 3
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "밑바닥성장",
+  "tags": [
+   "직장인",
+   "단한사람",
+   "혼자삭인다",
+   "짝사랑"
+  ],
+  "scene": "머릿속 세포들과 함께 사랑과 일을 고민하는 직장인",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "joseok",
+  "name": "조석",
+  "work": "마음의 소리",
+  "author": "조석",
+  "year": 2006,
+  "tier": "S",
+  "world": [
+   "일상"
+  ],
+  "role": "감초",
+  "axes": {
+   "E": 4,
+   "M": 3,
+   "S": 1,
+   "X": 5
+  },
+  "solve": "재능",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "배고프다",
+   "분위기메이커",
+   "비밀없음",
+   "생활형"
+  ],
+  "scene": "엉뚱함 하나로 하루를 버티는 만화가 본인",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "jugyeong",
+  "name": "임주경",
+  "work": "여신강림",
+  "author": "야옹이",
+  "year": 2018,
+  "tier": "S",
+  "world": [
+   "학원",
+   "로맨스"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 3,
+   "M": 4,
+   "S": 2,
+   "X": 3
+  },
+  "solve": "사교",
+  "emo": "감성",
+  "arc": "숨겨진강자",
+  "tags": [
+   "정체를숨김",
+   "학원물체질",
+   "짝사랑"
+  ],
+  "scene": "화장 실력으로 여신이 된 고등학생",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [
+   {
+    "id": "suho",
+    "type": "연인"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "suho",
+  "name": "이수호",
+  "work": "여신강림",
+  "author": "야옹이",
+  "year": 2018,
+  "tier": "S",
+  "world": [
+   "학원",
+   "로맨스"
+  ],
+  "role": "조력자",
+  "axes": {
+   "E": 1,
+   "M": 4,
+   "S": 4,
+   "X": 1
+  },
+  "solve": "무력",
+  "emo": "무표정",
+  "arc": "평탄",
+  "tags": [
+   "혼자만의장소",
+   "모니터불빛",
+   "단한사람",
+   "학원물체질"
+  ],
+  "scene": "무심한 얼굴 뒤에 만화책을 숨긴 미남",
+  "look": {
+   "vibe": "sharp"
+  },
+  "relations": [
+   {
+    "id": "jugyeong",
+    "type": "연인"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "gongjuyoung",
+  "name": "공주영",
+  "work": "연애혁명",
+  "author": "232",
+  "year": 2013,
+  "tier": "S",
+  "world": [
+   "학원",
+   "로맨스"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 4,
+   "S": 1,
+   "X": 5
+  },
+  "solve": "사교",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "바로말한다",
+   "분위기메이커",
+   "짝사랑",
+   "학원물체질"
+  ],
+  "scene": "첫눈에 반한 상대에게 끝없이 직진하는 고등학생",
+  "look": {},
+  "relations": [
+   {
+    "id": "wangjarim",
+    "type": "연인"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "wangjarim",
+  "name": "왕자림",
+  "work": "연애혁명",
+  "author": "232",
+  "year": 2013,
+  "tier": "S",
+  "world": [
+   "학원",
+   "로맨스"
+  ],
+  "role": "조력자",
+  "axes": {
+   "E": 1,
+   "M": 4,
+   "S": 4,
+   "X": 1
+  },
+  "solve": "두뇌",
+  "emo": "츤데레",
+  "arc": "평탄",
+  "tags": [
+   "혼자삭인다",
+   "단한사람",
+   "학원물체질"
+  ],
+  "scene": "말수 적고 무심한 듯한 공주영의 상대",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [
+   {
+    "id": "gongjuyoung",
+    "type": "연인"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "jinkihan",
+  "name": "진기한",
+  "work": "신과 함께",
+  "author": "주호민",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "일상"
+  ],
+  "role": "조력자",
+  "axes": {
+   "E": 4,
+   "M": 5,
+   "S": 3,
+   "X": 4
+  },
+  "solve": "사교",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "정보통",
+   "존경받는자",
+   "작전가"
+  ],
+  "scene": "망자를 변호하는 저승의 국선변호사",
+  "look": {
+   "vibe": "sharp"
+  },
+  "relations": [
+   {
+    "id": "kimjahong",
+    "type": "변호인과 망자"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "kimjahong",
+  "name": "김자홍",
+  "work": "신과 함께",
+  "author": "주호민",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "일상"
+  ],
+  "role": "엑스트라",
+  "axes": {
+   "E": 2,
+   "M": 4,
+   "S": 3,
+   "X": 2
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "평탄",
+  "tags": [
+   "존재감제로",
+   "직장인",
+   "고마웠어",
+   "이름없는자"
+  ],
+  "scene": "평범하게 살다 저승에 도착한 회사원",
+  "look": {},
+  "relations": [
+   {
+    "id": "jinkihan",
+    "type": "변호인과 망자"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yujeong",
+  "name": "유정",
+  "work": "치즈인더트랩",
+  "author": "순끼",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "학원",
+   "로맨스"
+  ],
+  "role": "흑막",
+  "axes": {
+   "E": 3,
+   "M": 2,
+   "S": 4,
+   "X": 1
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "평탄",
+  "tags": [
+   "웃으며기억한다",
+   "정체를숨김",
+   "기록하는자",
+   "학원물체질"
+  ],
+  "scene": "완벽한 미소 뒤에 속을 감춘 선배",
+  "look": {
+   "vibe": "sharp"
+  },
+  "relations": [
+   {
+    "id": "hongseol",
+    "type": "연인"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "hongseol",
+  "name": "홍설",
+  "work": "치즈인더트랩",
+  "author": "순끼",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "학원",
+   "로맨스"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 4,
+   "S": 4,
+   "X": 2
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "밑바닥성장",
+  "tags": [
+   "혼자삭인다",
+   "끝까지남는다",
+   "학원물체질"
+  ],
+  "scene": "장학금과 인간관계 사이에서 버티는 대학생",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [
+   {
+    "id": "yujeong",
+    "type": "연인"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "chahyunsu",
+  "name": "차현수",
+  "work": "스위트홈",
+  "author": "김칸비·황영찬",
+  "year": 2017,
+  "tier": "S",
+  "world": [
+   "스릴러"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 1,
+   "M": 4,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "무력",
+  "emo": "무표정",
+  "arc": "숨겨진강자",
+  "tags": [
+   "모니터불빛",
+   "혼자만의장소",
+   "생존자",
+   "정체를숨김"
+  ],
+  "scene": "세상과 단절된 채 살다 괴물의 시대를 맞은 청년",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "rai",
+  "name": "라이제르",
+  "work": "노블레스",
+  "author": "손제호·이광수",
+  "year": 2007,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "학원"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 1,
+   "M": 5,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "재능",
+  "emo": "무표정",
+  "arc": "숨겨진강자",
+  "tags": [
+   "정체를숨김",
+   "혼자만의장소",
+   "존경받는자",
+   "학원물체질"
+  ],
+  "scene": "긴 잠에서 깨어나 고등학교에 다니게 된 귀족",
+  "look": {
+   "vibe": "sharp"
+  },
+  "relations": [
+   {
+    "id": "frankenstein",
+    "type": "주인과 집사"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "frankenstein",
+  "name": "프랑켄슈타인",
+  "work": "노블레스",
+  "author": "손제호·이광수",
+  "year": 2007,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "학원"
+  ],
+  "role": "조력자",
+  "axes": {
+   "E": 3,
+   "M": 3,
+   "S": 3,
+   "X": 3
+  },
+  "solve": "두뇌",
+  "emo": "츤데레",
+  "arc": "숨겨진강자",
+  "tags": [
+   "기록하는자",
+   "생활형",
+   "정체를숨김"
+  ],
+  "scene": "주인을 위해 학교 이사장이 된 충직한 집사",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [
+   {
+    "id": "rai",
+    "type": "주인과 집사"
+   }
+  ],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "jinmori",
+  "name": "진모리",
+  "work": "갓 오브 하이스쿨",
+  "author": "박용제",
+  "year": 2011,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "학원"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 4,
+   "S": 2,
+   "X": 5
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "숨겨진강자",
+  "tags": [
+   "무력파",
+   "바로말한다",
+   "앞장선다",
+   "정체를숨김"
+  ],
+  "scene": "무술 대회에 뛰어든 쾌활한 고등학생 무술가",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "nahwajin",
+  "name": "나화진",
+  "work": "참교육",
+  "author": "채용택·한가람",
+  "year": 2020,
+  "tier": "S",
+  "world": [
+   "학원",
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 3,
+   "M": 4,
+   "S": 5,
+   "X": 3
+  },
+  "solve": "무력",
+  "emo": "무표정",
+  "arc": "평탄",
+  "tags": [
+   "무력파",
+   "앞장선다",
+   "두려움의대상"
+  ],
+  "scene": "교권보호국 감독관으로 문제 학교를 바로잡는 사람",
+  "look": {
+   "vibe": "sharp"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yuhobin",
+  "name": "유호빈",
+  "work": "싸움독학",
+  "author": "박태준·김정현",
+  "year": 2019,
+  "tier": "S",
+  "world": [
+   "학원",
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 4,
+   "S": 3,
+   "X": 2
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "밑바닥성장",
+  "tags": [
+   "정보통",
+   "끝까지남는다",
+   "존재감제로",
+   "학원물체질"
+  ],
+  "scene": "휴대폰 속 싸움 영상으로 싸움을 독학한 학생",
+  "look": {
+   "glasses": true
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "kimbujang",
+  "name": "김부장",
+  "work": "김부장",
+  "author": "정종택·박태준",
+  "year": 2022,
+  "tier": "S",
+  "world": [
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 1,
+   "M": 4,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "무력",
+  "emo": "무표정",
+  "arc": "숨겨진강자",
+  "tags": [
+   "정체를숨김",
+   "직장인",
+   "무력파",
+   "단한사람"
+  ],
+  "scene": "평범한 직장인으로 살아온 전직 요원 아빠",
+  "look": {
+   "hair": "short"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yeonsieun",
+  "name": "연시은",
+  "work": "약한영웅",
+  "author": "서패스·김진석",
+  "year": 2018,
+  "tier": "S",
+  "world": [
+   "학원"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 1,
+   "M": 4,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "숨겨진강자",
+  "tags": [
+   "기록하는자",
+   "숨은실력자",
+   "혼자만의장소",
+   "학원물체질"
+  ],
+  "scene": "작고 조용하지만 머리로 싸우는 모범생",
+  "look": {
+   "glasses": true
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "kimmomi",
+  "name": "김모미",
+  "work": "마스크걸",
+  "author": "매미·희세",
+  "year": 2015,
+  "tier": "S",
+  "world": [
+   "현대",
+   "스릴러"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 2,
+   "S": 4,
+   "X": 1
+  },
+  "solve": "사교",
+  "emo": "감성",
+  "arc": "몰락",
+  "tags": [
+   "정체를숨김",
+   "직장인",
+   "모니터불빛",
+   "다음생엔"
+  ],
+  "scene": "낮에는 회사원, 밤에는 가면을 쓰고 방송하는 여자",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 2,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "jungjinsu",
+  "name": "정진수",
+  "work": "지옥",
+  "author": "연상호·최규석",
+  "year": 2019,
+  "tier": "S",
+  "world": [
+   "스릴러"
+  ],
+  "role": "흑막",
+  "axes": {
+   "E": 3,
+   "M": 2,
+   "S": 5,
+   "X": 2
+  },
+  "solve": "사교",
+  "emo": "무표정",
+  "arc": "몰락",
+  "tags": [
+   "두려움의대상",
+   "정체를숨김",
+   "정보통"
+  ],
+  "scene": "지옥의 고지를 신의 뜻이라 말하는 단체의 의장",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 2,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "navier",
+  "name": "나비에",
+  "work": "재혼황후",
+  "author": "알파타르트·숨",
+  "year": 2019,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "로맨스"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 5,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "밑바닥성장",
+  "tags": [
+   "존경받는자",
+   "혼자삭인다",
+   "기록하는자"
+  ],
+  "scene": "완벽한 황후였으나 스스로 재혼을 택한 여인",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "jeongnyeon",
+  "name": "윤정년",
+  "work": "정년이",
+  "author": "서이레·나몬",
+  "year": 2019,
+  "tier": "S",
+  "world": [
+   "무협",
+   "일상"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 4,
+   "S": 3,
+   "X": 5
+  },
+  "solve": "재능",
+  "emo": "직진",
+  "arc": "밑바닥성장",
+  "tags": [
+   "무리의중심",
+   "바로말한다",
+   "끝까지남는다"
+  ],
+  "scene": "목포에서 올라와 여성국극 무대에 선 소리 천재",
+  "look": {
+   "hair": "short"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "woogimyung",
+  "name": "우기명",
+  "work": "패션왕",
+  "author": "기안84",
+  "year": 2011,
+  "tier": "S",
+  "world": [
+   "학원"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 3,
+   "M": 3,
+   "S": 2,
+   "X": 4
+  },
+  "solve": "근성",
+  "emo": "직진",
+  "arc": "밑바닥성장",
+  "tags": [
+   "끝까지남는다",
+   "학원물체질",
+   "평생의라이벌"
+  ],
+  "scene": "패션으로 학교를 제패하려는 고등학생",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "leejaha",
+  "name": "이자하",
+  "work": "광마회귀",
+  "author": "유진성(원작)",
+  "year": 2023,
+  "tier": "S",
+  "world": [
+   "무협"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 2,
+   "S": 2,
+   "X": 5
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "회귀",
+  "tags": [
+   "회귀자",
+   "두려움의대상",
+   "귀찮은녀석",
+   "강호의피",
+   "바로말한다"
+  ],
+  "scene": "광마라 불리던 사내가 젊은 날로 돌아왔다",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "cheonyeowoon",
+  "name": "천여운",
+  "work": "나노마신",
+  "author": "한중월야(원작)",
+  "year": 2020,
+  "tier": "S",
+  "world": [
+   "무협",
+   "판타지"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 3,
+   "S": 4,
+   "X": 2
+  },
+  "solve": "재능",
+  "emo": "무표정",
+  "arc": "숨겨진강자",
+  "tags": [
+   "정체를숨김",
+   "강호의피",
+   "숨은실력자"
+  ],
+  "scene": "몸속에 나노머신을 얻은 마교의 서자",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "hantaeseong",
+  "name": "한태성",
+  "work": "프리드로우",
+  "author": "전선욱",
+  "year": 2014,
+  "tier": "S",
+  "world": [
+   "학원"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 5,
+   "S": 2,
+   "X": 5
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "무력파",
+   "분위기메이커",
+   "앞장선다",
+   "동료애",
+   "학원물체질"
+  ],
+  "scene": "싸움도 축제도 좋아하는 열혈 고등학생",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "kanglyong",
+  "name": "강룡",
+  "work": "고수",
+  "author": "류기운·문정후",
+  "year": 2013,
+  "tier": "S",
+  "world": [
+   "무협"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 4,
+   "S": 2,
+   "X": 5
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "밑바닥성장",
+  "tags": [
+   "무력파",
+   "바로말한다",
+   "배고프다",
+   "강호의피"
+  ],
+  "scene": "엄청난 내공을 품은 천방지축 소년 무인",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yunjongwoo",
+  "name": "윤종우",
+  "work": "타인은 지옥이다",
+  "author": "김용키",
+  "year": 2018,
+  "tier": "S",
+  "world": [
+   "스릴러"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 1,
+   "M": 4,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "몰락",
+  "tags": [
+   "직장인",
+   "혼자삭인다",
+   "생존자",
+   "다음생엔"
+  ],
+  "scene": "서울에 올라와 낡은 고시원에 머무는 청년",
+  "look": {},
+  "relations": [
+   {
+    "id": "seomunjo",
+    "type": "이웃이자 악몽"
+   }
+  ],
+  "ending": "",
+  "spoiler": 1,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "seomunjo",
+  "name": "서문조",
+  "work": "타인은 지옥이다",
+  "author": "김용키",
+  "year": 2018,
+  "tier": "S",
+  "world": [
+   "스릴러"
+  ],
+  "role": "흑막",
+  "axes": {
+   "E": 2,
+   "M": 1,
+   "S": 4,
+   "X": 1
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "평탄",
+  "tags": [
+   "웃으며기억한다",
+   "재앙의근원",
+   "두려움의대상"
+  ],
+  "scene": "친절한 미소로 고시원 이웃이 되는 치과의사",
+  "look": {
+   "vibe": "soft"
+  },
+  "relations": [
+   {
+    "id": "yunjongwoo",
+    "type": "이웃이자 악몽"
+   }
+  ],
+  "ending": "",
+  "spoiler": 1,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "gisangho",
+  "name": "기상호",
+  "work": "가비지타임",
+  "author": "2사장",
+  "year": 2018,
+  "tier": "S",
+  "world": [
+   "학원"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 4,
+   "S": 2,
+   "X": 5
+  },
+  "solve": "근성",
+  "emo": "직진",
+  "arc": "밑바닥성장",
+  "tags": [
+   "분위기메이커",
+   "끝까지남는다",
+   "동료애",
+   "학원물체질"
+  ],
+  "scene": "약체 농구부에서 코트를 누비는 고등학생",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "baeknambong",
+  "name": "백남봉",
+  "work": "닥터 프로스트",
+  "author": "이종범",
+  "year": 2011,
+  "tier": "S",
+  "world": [
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 1,
+   "M": 4,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "평탄",
+  "tags": [
+   "기록하는자",
+   "혼자만의장소",
+   "작전가"
+  ],
+  "scene": "감정에 둔한 천재 심리학자",
+  "look": {
+   "vibe": "sharp"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "maru",
+  "name": "마루",
+  "work": "마루는 강쥐",
+  "author": "모죠",
+  "year": 2021,
+  "tier": "S",
+  "world": [
+   "일상"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 5,
+   "M": 5,
+   "S": 1,
+   "X": 5
+  },
+  "solve": "재능",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "배고프다",
+   "비밀없음",
+   "분위기메이커"
+  ],
+  "scene": "사람이 되어 버린 해맑은 강아지",
+  "look": {
+   "vibe": "soft"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "jeongbokdong",
+  "name": "정복동",
+  "work": "쌉니다 천리마마트",
+  "author": "김규삼",
+  "year": 2010,
+  "tier": "S",
+  "world": [
+   "현대",
+   "일상"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 3,
+   "M": 3,
+   "S": 1,
+   "X": 3
+  },
+  "solve": "두뇌",
+  "emo": "무표정",
+  "arc": "평탄",
+  "tags": [
+   "웃으며기억한다",
+   "직장인",
+   "재앙의근원"
+  ],
+  "scene": "좌천된 마트에서 회사를 망하게 하려는 사장",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "jojo",
+  "name": "조조",
+  "work": "삼국지톡",
+  "author": "무적핑크·이리",
+  "year": 2020,
+  "tier": "S",
+  "world": [
+   "무협",
+   "일상"
+  ],
+  "role": "라이벌",
+  "axes": {
+   "E": 4,
+   "M": 2,
+   "S": 2,
+   "X": 4
+  },
+  "solve": "두뇌",
+  "emo": "직진",
+  "arc": "평탄",
+  "tags": [
+   "작전가",
+   "정보통",
+   "두려움의대상"
+  ],
+  "scene": "단톡방에서도 천하를 노리는 야심가",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yu",
+  "name": "유",
+  "work": "더 복서",
+  "author": "정지훈",
+  "year": 2019,
+  "tier": "S",
+  "world": [
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 1,
+   "M": 3,
+   "S": 5,
+   "X": 1
+  },
+  "solve": "재능",
+  "emo": "무표정",
+  "arc": "숨겨진강자",
+  "tags": [
+   "숨은실력자",
+   "혼자만의장소",
+   "무력파"
+  ],
+  "scene": "아무것도 느끼지 못하는 천재 복서",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "yungamin",
+  "name": "윤가민",
+  "work": "스터디그룹",
+  "author": "신형욱·유승연",
+  "year": 2019,
+  "tier": "S",
+  "world": [
+   "학원"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 3,
+   "M": 5,
+   "S": 3,
+   "X": 3
+  },
+  "solve": "무력",
+  "emo": "직진",
+  "arc": "밑바닥성장",
+  "tags": [
+   "무력파",
+   "끝까지남는다",
+   "동료애",
+   "학원물체질"
+  ],
+  "scene": "공부가 하고 싶은데 싸움 실력이 먼저 나오는 학생",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "leeduna",
+  "name": "이두나",
+  "work": "이두나!",
+  "author": "민송아",
+  "year": 2020,
+  "tier": "S",
+  "world": [
+   "로맨스",
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 4,
+   "S": 3,
+   "X": 1
+  },
+  "solve": "재능",
+  "emo": "츤데레",
+  "arc": "몰락",
+  "tags": [
+   "정체를숨김",
+   "혼자만의장소",
+   "단한사람"
+  ],
+  "scene": "셰어하우스에 숨어 사는 전직 아이돌",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "choijunwoong",
+  "name": "최준웅",
+  "work": "내일",
+  "author": "라마",
+  "year": 2017,
+  "tier": "S",
+  "world": [
+   "판타지",
+   "현대"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 3,
+   "M": 5,
+   "S": 3,
+   "X": 4
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "밑바닥성장",
+  "tags": [
+   "직장인",
+   "고마웠어",
+   "동료애"
+  ],
+  "scene": "저승 위기관리팀에 들어간 취준생",
+  "look": {},
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ },
+ {
+  "id": "gangmirae",
+  "name": "강미래",
+  "work": "내 ID는 강남미인",
+  "author": "기맹기",
+  "year": 2016,
+  "tier": "S",
+  "world": [
+   "학원",
+   "로맨스"
+  ],
+  "role": "주인공",
+  "axes": {
+   "E": 2,
+   "M": 4,
+   "S": 3,
+   "X": 1
+  },
+  "solve": "근성",
+  "emo": "감성",
+  "arc": "밑바닥성장",
+  "tags": [
+   "혼자삭인다",
+   "정체를숨김",
+   "학원물체질"
+  ],
+  "scene": "외모 콤플렉스와 싸우는 대학 새내기",
+  "look": {
+   "hair": "long"
+  },
+  "relations": [],
+  "ending": "",
+  "spoiler": 0,
+  "meme": "",
+  "image": "",
+  "source": "",
+  "verified": false
+ }
+]
