@@ -38,8 +38,8 @@ p{margin-bottom:12px}
 .pixel{font-family:var(--pixel)}
 .neon{color:var(--neon)}
 /* 진자 */
-.pend{display:block;margin:6px auto 22px;width:120px;height:170px}
-.pend g{transform-origin:60px 8px;animation:swing 2.4s ease-in-out infinite alternate}
+.pend{display:block;margin:6px auto 22px;width:180px;height:180px;overflow:visible}
+.pend g{transform-box:view-box;transform-origin:90px 10px;animation:swing 2.4s ease-in-out infinite alternate}
 @keyframes swing{from{transform:rotate(-24deg)}to{transform:rotate(24deg)}}
 /* 자막 박스 */
 .sub{background:rgba(20,28,58,.55);border-left:3px solid var(--neon);padding:16px 18px;border-radius:3px;min-height:4.6em;margin:0 0 22px;white-space:pre-line;font-size:18px;cursor:pointer}
@@ -77,9 +77,11 @@ input,select,textarea{width:100%;font:inherit;font-size:17px;color:var(--text);b
 .sec h3{font-family:var(--pixel);font-size:12px;font-weight:400;color:var(--sub);margin-bottom:8px}
 .sec ol{padding-left:20px}
 .sec li{margin-bottom:8px}
+.quote{font-size:19px;line-height:1.7;border-left:2px solid var(--neon);padding:2px 0 2px 14px;margin:0 0 18px}
 .spoil{filter:blur(6px);cursor:pointer;transition:filter .2s}
 .spoil.open{filter:none}
 .note{font-family:var(--pixel);font-size:12px;color:var(--sub);margin-top:14px}
+.ver{font-family:var(--pixel);font-size:11px;color:var(--sub);margin-top:28px}
 .watermark{font-family:var(--pixel);font-size:10px;color:var(--sub);text-align:right;margin-top:14px}
 /* 관리자 / 발표 */
 .wide main{max-width:1080px;justify-content:flex-start}
@@ -99,7 +101,7 @@ td select{font-size:13px;padding:4px 6px}
 </head>
 <body>
 <div id="app">
-  <div class="hud"><span><span class="rec">● REC</span> <span id="tc">00:00:00</span></span><span><button id="snd" aria-pressed="false">♪ 소리 꺼짐</button></span></div>
+  <div class="hud"><span><span class="rec">● REC</span> <span id="tc">00:00:00</span></span><span><button id="snd" aria-pressed="true">♪ 소리 켜짐</button></span></div>
   <main id="view" aria-live="polite"></main>
 </div>
 <script>
@@ -112,18 +114,42 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&
 // 타임코드
 const t0=Date.now(); setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);$('#tc').textContent=[s/3600|0,(s/60|0)%60,s%60].map(n=>String(n).padStart(2,'0')).join(':');},1000);
 
-// 소리: 낮은 앰비언트 + 진자 틱 (기본 꺼짐)
-let actx=null,master=null;
-$('#snd').onclick=()=>{
-  if(!actx){ actx=new (window.AudioContext||window.webkitAudioContext)(); master=actx.createGain(); master.gain.value=0; master.connect(actx.destination);
-    [55,82.5].forEach(f=>{const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=f;g.gain.value=.05;o.connect(g);g.connect(master);o.start();});
-    setInterval(()=>{ if(!master||master.gain.value===0) return; const o=actx.createOscillator(),g=actx.createGain(); o.frequency.value=1400; g.gain.setValueAtTime(.03,actx.currentTime); g.gain.exponentialRampToValueAtTime(.0001,actx.currentTime+.08); o.connect(g); g.connect(master); o.start(); o.stop(actx.currentTime+.1); },1200);
-  }
-  const on=master.gain.value===0; master.gain.value=on?.6:0; actx.resume();
-  $('#snd').textContent=on?'♪ 소리 켜짐':'♪ 소리 꺼짐'; $('#snd').setAttribute('aria-pressed',on);
-};
+// 소리: 기본 켜짐. 브라우저 정책상 첫 클릭·키 입력 순간에 시작된다.
+let actx=null, master=null, soundOn=true;
+function initAudio(){
+  if (actx) return; actx=new (window.AudioContext||window.webkitAudioContext)();
+  master=actx.createGain(); master.gain.value=soundOn?.8:0; master.connect(actx.destination);
+  const lp=actx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=700; lp.connect(master);
+  // 낮은 드론 (살짝 어긋난 두 음이 맥놀이를 만든다)
+  [[55,.06],[55.7,.05],[82.4,.035],[110,.012]].forEach(([f,g])=>{const o=actx.createOscillator(),v=actx.createGain();o.frequency.value=f;v.gain.value=g;o.connect(v);v.connect(lp);o.start();});
+  // 방 안 공기 소리: 브라운 노이즈 + 천천히 숨 쉬는 볼륨
+  const len=actx.sampleRate*4, buf=actx.createBuffer(1,len,actx.sampleRate), d=buf.getChannelData(0); let last=0;
+  for(let i=0;i<len;i++){ last=(last+.02*(Math.random()*2-1))/1.02; d[i]=last*3.2; }
+  const nz=actx.createBufferSource(); nz.buffer=buf; nz.loop=true;
+  const nlp=actx.createBiquadFilter(); nlp.type='lowpass'; nlp.frequency.value=480;
+  const ng=actx.createGain(); ng.gain.value=.16; const lfo=actx.createOscillator(), lg=actx.createGain(); lfo.frequency.value=.09; lg.gain.value=.08; lfo.connect(lg); lg.connect(ng.gain); lfo.start();
+  nz.connect(nlp); nlp.connect(ng); ng.connect(master); nz.start();
+  // 아주 옅은 고음 반짝임
+  const sh=actx.createOscillator(), sg=actx.createGain(), sl=actx.createOscillator(), slg=actx.createGain();
+  sh.type='triangle'; sh.frequency.value=880; sg.gain.value=.006; sl.frequency.value=.21; slg.gain.value=.005; sl.connect(slg); slg.connect(sg.gain);
+  sh.connect(sg); sg.connect(master); sh.start(); sl.start();
+}
+function tick(){
+  if(!actx||!soundOn) return; const t=actx.currentTime;
+  const o=actx.createOscillator(), bp=actx.createBiquadFilter(), g=actx.createGain();
+  o.type='square'; o.frequency.value=2800; bp.type='bandpass'; bp.frequency.value=2800; bp.Q.value=9;
+  g.gain.setValueAtTime(.35,t); g.gain.exponentialRampToValueAtTime(.0001,t+.06);
+  o.connect(bp); bp.connect(g); g.connect(master); o.start(t); o.stop(t+.07);
+  const o2=actx.createOscillator(), g2=actx.createGain(); o2.frequency.value=1400;
+  g2.gain.setValueAtTime(.12,t); g2.gain.exponentialRampToValueAtTime(.0001,t+.12); o2.connect(g2); g2.connect(master); o2.start(t); o2.stop(t+.13);
+}
+document.addEventListener('animationiteration',e=>{ if(e.target.closest&&e.target.closest('.pend')) tick(); });
+['pointerdown','keydown'].forEach(ev=>document.addEventListener(ev,()=>{ initAudio(); actx.resume(); },{once:false,passive:true}));
+function setSound(on){ soundOn=on; if(master) master.gain.value=on?.8:0; $('#snd').textContent=on?'♪ 소리 켜짐':'♪ 소리 꺼짐'; $('#snd').setAttribute('aria-pressed',on); }
+$('#snd').onclick=e=>{ e.stopPropagation(); initAudio(); actx.resume(); setSound(!soundOn); };
+setSound(true);
 
-const PEND=`<svg class="pend" viewBox="0 0 120 170" aria-hidden="true"><circle cx="60" cy="8" r="3" fill="var(--sub)"/><g><line x1="60" y1="8" x2="60" y2="130" stroke="var(--sub)" stroke-width="1.5"/><circle cx="60" cy="140" r="14" fill="none" stroke="var(--neon)" stroke-width="2"/><circle cx="60" cy="140" r="5" fill="var(--neon)"/></g></svg>`;
+const PEND=`<svg class="pend" viewBox="0 0 180 180" aria-hidden="true"><circle cx="90" cy="10" r="3" fill="var(--sub)"/><g><line x1="90" y1="10" x2="90" y2="132" stroke="var(--sub)" stroke-width="1.5"/><circle cx="90" cy="142" r="14" fill="none" stroke="var(--neon)" stroke-width="2"/><circle cx="90" cy="142" r="5" fill="var(--neon)"/></g></svg>`;
 const SIL=`<svg viewBox="0 0 80 100" aria-hidden="true"><circle cx="40" cy="34" r="18" fill="#3c4a7a"/><path d="M8 100c2-24 16-36 32-36s30 12 32 36z" fill="#3c4a7a"/><text x="40" y="42" text-anchor="middle" font-family="Galmuri11" font-size="20" fill="var(--neon)">?</text></svg>`;
 
 function show(html,wide){ view.innerHTML=html; document.body.classList.toggle('wide',!!wide); if(!reduce){view.classList.remove('vhs');void view.offsetWidth;view.classList.add('vhs');} window.scrollTo(0,0); }
@@ -167,27 +193,44 @@ let S={}; let JOBS=['콘텐츠·편집','개발','디자인','사업·마케팅'
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
 const ORDERS={}; for(const k in QS) ORDERS[k]=shuffle(QS[k].o.map((_,i)=>i));
 
+const VERSION='v1.3', BUILD='2026.10.09';
+let SERVER_VERSION=null;
+const ADMIN_NAME='김현우';
+const normName=n=>String(n||'').replace(/\s+/g,'');
 function gate(msg=''){
   const saved=JSON.parse(localStorage.getItem('js_gate')||'{}');
   show(`${PEND}<h1>전생체험<small>당신은 전생에 어떤 웹툰 캐릭터였나</small></h1>
-  <p class="muted" style="margin-top:18px">약 3분 동안, 열 개의 장면을 지나게 됩니다. 정답은 없습니다. 떠오르는 대로 고르세요.</p>
-  <label for="code">입장 코드</label><input id="code" autocomplete="off" value="${esc(saved.code||'')}">
-  <label for="nick">닉네임 (행사 당일 이 이름으로 불립니다)</label><input id="nick" maxlength="20" value="${esc(saved.nick||'')}">
-  <div class="row"><button class="btn" id="go">최면 시작하기</button></div><div class="err" id="err">${esc(msg)}</div>`);
+  <p class="muted" style="margin-top:18px">약 3분 동안, 열 개의 장면을 지나게 됩니다. 정답은 없습니다. 떠오르는 대로 고르세요. 소리를 켜고 들어가시길 권합니다.</p>
+  <label for="nick">이름 (본명 · 모임날 이 이름으로 불립니다)</label><input id="nick" maxlength="20" autocomplete="name" value="${esc(saved.nick||'')}">
+  <p class="note" style="margin-top:6px">동명이인이 있으면 이름 뒤에 팀명을 붙여 주세요 (예: 김현우컷츠)</p>
+  <div class="row"><button class="btn" id="go">최면 시작하기</button></div><div class="err" id="err">${esc(msg)}</div>
+  <p class="ver">${VERSION} · ${BUILD}${SERVER_VERSION&&SERVER_VERSION!==VERSION?` · 서버 ${esc(SERVER_VERSION)} (서버 파일이 아직 이전 버전입니다)`:''}</p>`);
+  $('#nick').onkeydown=e=>{ if(e.key==='Enter') $('#go').click(); };
   $('#go').onclick=async()=>{
-    const code=$('#code').value.trim(), nick=$('#nick').value.trim();
-    if(!code||!nick){$('#err').textContent='입장 코드와 닉네임을 모두 입력해 주세요.';return;}
+    const nick=normName($('#nick').value);
+    if(!nick){$('#err').textContent='이름을 입력해 주세요.';return;}
     $('#go').disabled=true;
-    try{ const r=await api({action:'me',code,nick},'GET'); localStorage.setItem('js_gate',JSON.stringify({code,nick}));
-      S={code,nick,answers:{},timings:{},changes:0,skipped:false,look:null,belief:1,free:'',job:null,step:0};
+    try{ const r=await api({action:'me',nick},'GET');
+      localStorage.setItem('js_gate',JSON.stringify({nick}));
+      S={nick,answers:{},timings:{},changes:0,skipped:false,look:null,belief:1,free:'',job:null,step:0};
+      if(nick===ADMIN_NAME){ sessionStorage.setItem('js_admin',nick); return adminMenu(r); }
       if(r.result) return already(r);
       pretalk();
     }catch(e){ $('#err').textContent=e.message; $('#go').disabled=false; }
   };
 }
+function adminMenu(r){
+  show(`<p class="qno">운영자 메뉴</p><h1 style="font-size:26px">${esc(S.nick)}님, 어디로 갈까요?</h1>
+  <div class="opts" style="margin-top:20px">
+    <button class="opt" id="m1">${r.result?'내 전생 기록 보기':'전생 체험하기'}</button>
+    <button class="opt" id="m2">관리자 화면 — 응답 현황, 재배정, 인연 공개</button>
+    <button class="opt" id="m3">발표 모드 — 모임날 진행용</button></div>`);
+  $('#m1').onclick=()=> r.result?already(r):pretalk();
+  $('#m2').onclick=()=>admin(ADMIN_NAME); $('#m3').onclick=present;
+}
 function already(r){
   show(`<p class="qno">기록 발견</p><h1 style="font-size:26px">${esc(S.nick)}님의 전생 기록이 이미 남아 있습니다.</h1>
-  <p class="muted" style="margin-top:12px">다시 최면을 걸면 기존 기록은 새 기록으로 바뀝니다.</p>
+  <p class="muted" style="margin-top:12px">다시 최면을 걸면 기존 기록은 새 기록으로 바뀝니다. 다른 기기에서도 같은 이름이면 이 기록이 열립니다.</p>
   <div class="row"><button class="btn" id="see">기록 다시 보기</button><button class="btn ghost" id="redo">다시 최면 걸기</button></div>`);
   $('#see').onclick=()=>result(r.result,r.revealed); $('#redo').onclick=pretalk;
 }
@@ -245,7 +288,7 @@ function bonus(){
 }
 function wake(){
   show(`${PEND}<div class="sub" id="s" style="text-align:center;border-left:0"></div><div class="err" id="err"></div>`);
-  const send=api({action:'submit',code:S.code,nick:S.nick,answers:S.answers,timings:S.timings,changes:S.changes,skipped:S.skipped,look:S.look,belief:S.belief,free:S.free,job:S.job});
+  const send=api({action:'submit',nick:S.nick,answers:S.answers,timings:S.timings,changes:S.changes,skipped:S.skipped,look:S.look,belief:S.belief,free:S.free,job:S.job});
   type($('#s'),'이제 깨어납니다.\n하나…\n둘…\n셋.\n눈을 뜨세요.',async()=>{
     try{ const r=await send; result(r.result,r.revealed,true); }
     catch(e){ $('#err').innerHTML=esc(e.message)+' <button class="btn ghost" id="re">다시 시도</button>'; $('#re').onclick=wake; }
@@ -256,25 +299,35 @@ function wake(){
 function portrait(c){ return c.image?`<img src="${esc(c.image)}" alt="${esc(c.name)}" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.replaceWith(document.createRange().createContextualFragment(SIL))">`:SIL; }
 function result(r,revealed,fresh){
   const c=r.char;
+  const later='<p class="muted">모임날 공개됩니다.</p>';
   const bondsHtml = revealed
     ? (r.bonds&&r.bonds.length ? `<ol>${r.bonds.map(b=>`<li><b>${esc(b.nick)}</b>님 — 전생의 ${esc(b.name)} (${esc(b.type)})</li>`).join('')}</ol>` : '<p class="muted">이번 생에서는 같은 작품의 영혼을 만나지 못했습니다.</p>')
-    : '<p class="muted">전생 인연은 행사 당일 공개됩니다.</p>';
+    : later;
+  const pair = revealed && (r.soulmate||r.rival)
+    ? `${r.soulmate?`<p><b>소울메이트</b> — ${esc(r.soulmate.nick)}님 (전생의 ${esc(r.soulmate.name)}). 이번 모임에서 성향이 가장 닮은 영혼입니다.</p>`:''}${r.rival?`<p><b>전생의 라이벌</b> — ${esc(r.rival.nick)}님 (전생의 ${esc(r.rival.name)}). 이번 모임에서 성향이 가장 먼 영혼입니다.</p>`:''}`
+    : later;
   show(`<div class="sheet" id="sheet">
     <div class="tc"><span>▶ PLAY · 전생 기록</span><span>${esc(r.nick)}</span></div>
     <div class="who"><div class="portrait">${portrait(c)}</div>
       <div><div class="name">${esc(c.name)}</div><div class="work">${esc(c.work)} · ${esc(c.author)} · ${esc(c.year)}</div>
-      <div class="depth">최면 깊이 <b>${r.depth}%</b>${r.depth<75?' — 의식이 조금 저항했습니다':''}</div></div></div>
+      <div class="depth">최면 깊이 <b>${r.depth}%</b></div></div></div>
+    ${c.quote?`<p class="quote">“${esc(c.quote)}”</p>`:''}
     <div>${r.story.map(s=>`<p>${esc(s)}</p>`).join('')}</div>
-    <div class="sec"><h3>현생과 닮은 흔적</h3><ol>${r.evidence.map(e=>`<li>${esc(e)}</li>`).join('')}</ol></div>
+    <div class="sec"><h3>전생이 남긴 단서</h3><ol>${r.evidence.map(e=>`<li>${esc(e)}</li>`).join('')}</ol></div>
+    ${r.diff?`<div class="sec"><h3>현생으로 넘어오며 달라진 것</h3><p>${esc(r.diff)}</p></div>`:''}
+    ${r.regret?`<div class="sec"><h3>전생에 남긴 미련</h3><p>${esc(r.regret)}</p></div>`:''}
     ${r.karma?`<div class="sec"><h3>현생 업보</h3><p>${esc(r.karma)}</p></div>`:''}
+    ${r.second?`<div class="sec"><h3>희미하게 겹친 또 다른 생</h3><p>아주 잠깐, ${esc(r.second.work)}의 ${esc(r.second.name)}도 스쳐 지나갔습니다. 어쩌면 그 생도 당신이었을지 모릅니다.</p></div>`:''}
     ${c.ending?`<div class="sec"><h3>전생의 마지막 ${c.spoiler?'(스포일러 — 눌러서 보기)':''}</h3><p class="${c.spoiler?'spoil':''}" onclick="this.classList.add('open')">${esc(c.ending)}</p></div>`:''}
     ${r.relations&&r.relations.length?`<div class="sec"><h3>작품 속 인연</h3><ol>${r.relations.map(x=>`<li>${esc(x.name)} — ${esc(x.type)}</li>`).join('')}</ol></div>`:''}
     <div class="sec"><h3>전생 인연 (참가자)</h3>${bondsHtml}</div>
-    <div class="watermark">사내 동호회 행사용 · 외부 공유 금지</div>
+    <div class="sec"><h3>이번 생의 소울메이트와 라이벌</h3>${pair}</div>
+    <div class="sec"><h3>최면사의 메모</h3><p class="muted">${esc(r.memo||'')}</p></div>
+    <div class="watermark">사내 동호회 모임용 · 외부 공유 금지</div>
   </div>
-  ${fresh?'<p class="note">응답 마감 후 전체 배정이 한 번 다시 이루어집니다. 전생의 기억은 행사 당일 더 선명해질 수 있습니다.</p>':''}
+  ${fresh?'<p class="note">응답 마감 후 전체 배정이 한 번 다시 이루어집니다. 전생의 기억은 모임날 더 선명해질 수 있습니다.</p>':''}
   <div class="row"><button class="btn" id="png">이미지로 저장</button><button class="btn ghost" id="cp">슬랙용 문구 복사</button><button class="btn ghost" id="redo">다시 최면 걸기</button></div>
-  <p class="note">결과가 원작 설정과 다르다면 운영진에게 알려 주세요. 행사 전까지 고칩니다.</p>`);
+  <p class="note">결과가 원작 설정과 다르다면 운영진에게 알려 주세요. 모임날 전까지 고칩니다.</p>`);
   $('#png').onclick=async()=>{ if(!window.html2canvas) return alert('이미지 도구를 불러오는 중입니다. 잠시 후 다시 눌러 주세요.');
     const cv=await html2canvas($('#sheet'),{backgroundColor:'#46578A',scale:2,useCORS:true}); const a=document.createElement('a'); a.download=`전생_${r.nick}.png`; a.href=cv.toDataURL('image/png'); a.click(); };
   $('#cp').onclick=async()=>{ const t=`🕯️ 전생체험 결과\n${r.nick}의 전생은… *${c.name}* (${c.work})\n최면 깊이 ${r.depth}%\n> ${r.evidence[0]||''}`;
@@ -284,14 +337,14 @@ function result(r,revealed,fresh){
 
 /* ───────── 관리자 ───────── */
 async function admin(code){
-  if(!code){ show(`<h1 style="font-size:26px">관리자</h1><label for="ac">관리자 코드</label><input id="ac" type="password"><div class="row"><button class="btn" id="go">들어가기</button></div><div class="err" id="err"></div>`);
+  if(!code){ show(`<h1 style="font-size:26px">관리자</h1><label for="ac">관리자 이름</label><input id="ac"><div class="row"><button class="btn" id="go">들어가기</button></div><div class="err" id="err"></div>`);
     $('#go').onclick=()=>admin($('#ac').value.trim()); return; }
   let d; try{ d=await api({action:'admin',adminCode:code,op:'list'}); }catch(e){ return admin(), setTimeout(()=>$('#err').textContent=e.message); }
   sessionStorage.setItem('js_admin',code);
   show(`<h1 style="font-size:26px">관리자 <small>응답 ${d.subs.length}명 · 캐릭터 DB ${d.chars}명 ${d.demo?'· 메모리 저장(데모)':''}</small></h1>
   <div class="row"><button class="btn" id="ra">전역 재배정 실행</button><button class="btn ghost" id="rv">${d.revealed?'인연 공개 끄기':'인연 공개 켜기'}</button><a class="btn ghost" href="?present" style="text-decoration:none">발표 모드</a></div>
   <p class="note">재배정: 각자의 후보 10명 안에서 중복 없이 다시 배정하고, 같은 작품 인연이 생기도록 가산합니다. 수동 지정한 사람은 유지됩니다.</p>
-  <div style="overflow-x:auto;margin-top:16px"><table><tr><th>닉네임</th><th>현재 전생</th><th>후보에서 지정</th><th></th></tr>
+  <div style="overflow-x:auto;margin-top:16px"><table><tr><th>이름</th><th>현재 전생</th><th>후보에서 지정</th><th></th></tr>
   ${d.subs.sort((a,b)=>a.nick.localeCompare(b.nick)).map(s=>{const cur=s.top.find(t=>t.id===s.assigned)||{};
     return `<tr><td>${esc(s.nick)}${s.locked?' <span class="neon">수동</span>':''}</td><td>${esc(cur.name||s.assigned)}<br><span class="muted">${esc(cur.work||'')}</span></td>
     <td><select data-n="${esc(s.nick)}" class="ov">${s.top.map(t=>`<option value="${t.id}"${t.id===s.assigned?' selected':''}>${esc(t.name)} · ${esc(t.work)} (${t.score})</option>`).join('')}</select></td>
@@ -305,9 +358,9 @@ async function admin(code){
 
 /* ───────── 발표 모드 ───────── */
 async function present(){
-  const adminCode=sessionStorage.getItem('js_admin')||'', g=JSON.parse(localStorage.getItem('js_gate')||'{}');
-  let d; try{ d=await api({action:'present',adminCode,code:g.code||''},'GET'); }
-  catch(e){ return show(`<h1 style="font-size:26px">발표 모드</h1><p class="muted" style="margin-top:12px">${esc(e.message)} 관리자 화면에서 먼저 들어오거나, 인연 공개를 켠 뒤 다시 열어 주세요.</p><div class="row"><a class="btn" href="?admin" style="text-decoration:none">관리자로 이동</a></div>`); }
+  const adminCode=sessionStorage.getItem('js_admin')||'';
+  let d; try{ d=await api({action:'present',adminCode},'GET'); }
+  catch(e){ return show(`<h1 style="font-size:26px">발표 모드</h1><p class="muted" style="margin-top:12px">${esc(e.message)} 첫 화면에서 관리자 이름으로 들어오거나, 인연 공개를 켠 뒤 다시 열어 주세요.</p><div class="row"><a class="btn" href="?admin" style="text-decoration:none">관리자로 이동</a></div>`); }
   const list=shuffle(d.results); let i=0, stage=0;
   const ROLE={주인공:'이야기의 한가운데에 선 사람',라이벌:'주인공이 넘어서야 했던 사람',조력자:'누군가의 곁을 지킨 사람',흑막:'모든 일의 뒤편에 있던 사람',감초:'모두를 웃게 하던 사람',엑스트라:'이름이 잘 불리지 않던 사람'};
   function render(){
@@ -317,7 +370,7 @@ async function present(){
     show(`<div class="slide"><p class="counter">${i+1} / ${list.length} · ${['누구의 전생일까요?','전생 공개','현생 공개'][stage]}</p>
       ${stage===0?`<div style="margin-top:16px">${hints}</div>`:''}
       ${stage>=1?`<div class="who" style="margin-top:16px"><div class="portrait" style="width:140px;height:176px">${portrait(c)}</div><div><div class="big neon">${esc(c.name)}</div><div class="work" style="font-size:20px">${esc(c.work)}</div></div></div>`:''}
-      ${stage>=2?`<p class="big" style="font-size:40px;margin-top:20px">${esc(r.nick)}</p>${r.karma?`<p class="hint muted">${esc(r.karma)}</p>`:''}${r.bonds.length?`<p class="hint">전생 인연: ${r.bonds.map(b=>esc(b.nick)+'('+esc(b.name)+')').join(', ')}</p>`:''}`:''}
+      ${stage>=2?`<p class="big" style="font-size:40px;margin-top:20px">${esc(r.nick)}</p>${r.karma?`<p class="hint muted">${esc(r.karma)}</p>`:''}${r.bonds.length?`<p class="hint">전생 인연: ${r.bonds.map(b=>esc(b.nick)+'('+esc(b.name)+')').join(', ')}</p>`:''}${r.soulmate?`<p class="hint">소울메이트: ${esc(r.soulmate.nick)} · 라이벌: ${esc(r.rival?.nick||'-')}</p>`:''}`:''}
       <div class="row"><button class="btn ghost" id="pv">이전</button><button class="btn" id="nx">다음</button><button class="btn ghost" id="bv">인연 지도</button></div></div>`,true);
     $('#nx').onclick=next; $('#pv').onclick=prev; $('#bv').onclick=bondsView;
   }
@@ -337,8 +390,8 @@ async function present(){
 
 /* ───────── 시작 ───────── */
 const qs=new URLSearchParams(location.search);
-fetch(API+'?action=config').then(r=>r.json()).then(c=>{ if(c.jobs) JOBS=c.jobs; }).catch(()=>{});
-if(qs.has('admin')) admin(sessionStorage.getItem('js_admin')); else if(qs.has('present')) present(); else gate();
+const boot=()=>{ if(qs.has('admin')) admin(sessionStorage.getItem('js_admin')); else if(qs.has('present')) present(); else gate(); };
+fetch(API+'?action=config').then(r=>r.json()).then(c=>{ if(c.jobs) JOBS=c.jobs; SERVER_VERSION=c.version||'v1.2 이하'; if(c.error) throw new Error(c.error); boot(); }).catch(e=>{ boot(); if(e.message&&$('#err')) $('#err').textContent=e.message; });
 </script>
 </body>
 </html>

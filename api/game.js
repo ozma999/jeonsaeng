@@ -4,12 +4,12 @@ import { buildProfile, rank, wobble, buildResult, LOOK_OPTS } from '../lib/match
 import { cmd, getJSON, setJSON, usingMemory, misconfigured } from '../lib/store.js';
 import { ORDER, JOBS } from '../lib/questions.js';
 
+export const VERSION='v1.3';
 const CHARS=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','characters.json'),'utf-8'));
 const BY_ID=Object.fromEntries(CHARS.map(c=>[c.id,c]));
-const ACCESS=process.env.ACCESS_CODE || (usingMemory?'demo':null);
-const ADMIN=process.env.ADMIN_CODE || (usingMemory?'admin':null);
+const ADMIN=(process.env.ADMIN_NAME||'김현우').replace(/\s+/g,'');   // 이 이름으로 들어오면 관리자 메뉴가 열린다 (보안 없음)
 
-const cleanNick=n=>String(n||'').trim().slice(0,20);
+const cleanNick=n=>String(n||'').replace(/\s+/g,'').slice(0,20);   // 띄어쓰기 무시: '김 현우' = '김현우'
 const isRevealed=async()=> (await cmd('GET','config:revealed'))==='1';
 
 function view(sub, subs){
@@ -21,9 +21,19 @@ function view(sub, subs){
     r.bonds=subs.filter(o=>o.nick!==sub.nick&&o.assigned&&BY_ID[o.assigned])
       .filter(o=>BY_ID[o.assigned].work===c.work)
       .map(o=>({nick:o.nick,name:BY_ID[o.assigned].name,type:relIds.has(o.assigned)?c.relations.find(x=>x.id===o.assigned).type:'같은 작품'}));
+    // 전생의 소울메이트 / 원수: 참가자 중 성향이 가장 가까운 사람과 가장 먼 사람
+    const me=buildProfile(sub), dist=o=>{ const p=buildProfile(o); let d=0; for(const a of ['E','M','S','X']) d+=Math.abs(p.v[a]-me.v[a]);
+      const top=x=>Object.entries(x.world).sort((a,b)=>b[1]-a[1])[0]?.[0]; return d+(top(p)===top(me)?0:1); };
+    const others=subs.filter(o=>o.nick!==sub.nick&&BY_ID[o.assigned]).map(o=>({o,d:dist(o)})).sort((a,b)=>a.d-b.d);
+    if (others.length){ const f=others[0].o, l=others[others.length-1].o;
+      r.soulmate={nick:f.nick,name:BY_ID[f.assigned].name,work:BY_ID[f.assigned].work};
+      if (others.length>1) r.rival={nick:l.nick,name:BY_ID[l.assigned].name,work:BY_ID[l.assigned].work}; }
   }
-  const {id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source}=r.char;
-  r.char={id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source}; // 배점 데이터는 내보내지 않음
+  const {id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source,quote}=r.char;
+  r.char={id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source,quote}; // 배점 데이터는 내보내지 않음
+  // 희미하게 겹친 또 다른 생 (후보 2순위)
+  const alt=(sub.top||[]).find(t=>t.id!==sub.assigned&&BY_ID[t.id]);
+  r.second=alt?{name:BY_ID[alt.id].name,work:BY_ID[alt.id].work}:null;
   return { nick:sub.nick, ...r };
 }
 async function allSubs(){ const nicks=await cmd('SMEMBERS','subs')||[]; const out=[]; for(const n of nicks){ const s=await getJSON('sub:'+n); if(s) out.push(s);} return out; }
@@ -61,14 +71,10 @@ export default async function handler(req,res){
     const q=req.method==='GET'?req.query:(req.body||{});
     const action=q.action;
     if (misconfigured) return res.status(500).json({error:'Redis가 연결되지 않았습니다. Vercel 환경변수를 확인한 뒤 다시 배포해 주세요.'});
-    if (action==='config') return res.json({revealed:await isRevealed(), demo:usingMemory, jobs:JOBS});
+    if (action==='config') return res.json({revealed:await isRevealed(), demo:usingMemory, jobs:JOBS, version:VERSION});
 
-    if (action==='submit'||action==='me'||action==='present'){
-      const admin=ADMIN && q.adminCode===ADMIN;
-      if (!admin && (!ACCESS || q.code!==ACCESS)) return res.status(401).json({error:'입장 코드가 맞지 않습니다.'});
-    }
     if (action==='submit'){
-      const nick=cleanNick(q.nick); if(!nick) return res.status(400).json({error:'닉네임을 입력해 주세요.'});
+      const nick=cleanNick(q.nick); if(!nick) return res.status(400).json({error:'이름을 입력해 주세요.'});
       const answers={}; for(const k of ORDER){ const v=Number(q.answers?.[k]); if(!Number.isInteger(v)) return res.status(400).json({error:'모든 문항에 답해 주세요.'}); answers[k]=v; }
       const sub={ nick, answers, timings:q.timings||{}, changes:Number(q.changes)||0, skipped:!!q.skipped,
         look:Number.isInteger(q.look)?q.look:null, belief:[0,1,2].includes(q.belief)?q.belief:1,
@@ -88,13 +94,13 @@ export default async function handler(req,res){
       return res.json({result:view(sub, revealed?await allSubs():null), revealed});
     }
     if (action==='present'){
-      const admin=ADMIN && q.adminCode===ADMIN;
+      const admin=cleanNick(q.adminCode)===ADMIN;
       if (!admin && !(await isRevealed())) return res.status(403).json({error:'아직 공개 전입니다.'});
       const subs=await allSubs();
       return res.json({results:subs.map(s=>view(s,subs)).filter(Boolean)});
     }
     if (action==='admin'){
-      if (!ADMIN || q.adminCode!==ADMIN) return res.status(401).json({error:'관리자 코드가 맞지 않습니다.'});
+      if (cleanNick(q.adminCode)!==ADMIN) return res.status(401).json({error:'관리자 이름이 아닙니다.'});
       const op=q.op;
       if (op==='list'){ const subs=await allSubs();
         return res.json({revealed:await isRevealed(), demo:usingMemory, subs:subs.map(s=>({nick:s.nick,at:s.at,assigned:s.assigned,locked:!!s.locked,

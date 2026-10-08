@@ -20,6 +20,8 @@ def main():
                 if c.get(k) not in ENUM[k] or not ev.get(k): why.append(f'{k} 근거 없음'); c[k]=None
             if not c.get('role') or not c.get('name'):   # 역할 근거가 없으면 매칭 품질이 무너지므로 제외
                 flags.append((c.get('name'),c.get('work'),'제외: '+', '.join(why))); continue
+            q=(c.get('quote') or '').strip()
+            c['quote']=q if q and any(q in e or e in q for e in (ev.get('quote') or [])) and len(q)<=60 else ''
             c['world']=[w for w in (c.get('world') or []) if w in WORLD] or ['일상']
             ax=c.get('axes') or {}
             for k in 'EMSX':
