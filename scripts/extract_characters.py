@@ -36,6 +36,7 @@ PROMPT='''아래는 웹툰 「{title}」의 나무위키 문서 원문이다. �
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--only'); ap.add_argument('--per-work',type=int,default=4); a=ap.parse_args()
     works=json.load(open(os.path.join(ROOT,'data','works_stier.json'),encoding='utf-8'))
+    if not os.environ.get('ANTHROPIC_API_KEY'): sys.exit('[API 키 없음] 먼저 명령창에 set ANTHROPIC_API_KEY=키 를 입력하세요. (맥: export ANTHROPIC_API_KEY=키)')
     client=anthropic.Anthropic()
     for w in works:
         t=w['title']
@@ -45,7 +46,9 @@ def main():
         texts=[open(fname(d),encoding='utf-8').read() for d in (f'{t}(웹툰)/등장인물',f'{t}/등장인물',f'{t}(웹툰)',t) if os.path.exists(fname(d))]
         if not texts: print('[원문 없음]',t); continue
         src='\n\n'.join(texts)[:120000]
-        msg=client.messages.create(model=MODEL,max_tokens=8000,messages=[{'role':'user','content':PROMPT.format(title=t,n=a.per_work,tags=', '.join(TAGS))+'\n\n<원문>\n'+src+'\n</원문>'}])
+        try: msg=client.messages.create(model=MODEL,max_tokens=8000,messages=[{'role':'user','content':PROMPT.format(title=t,n=a.per_work,tags=', '.join(TAGS))+'\n\n<원문>\n'+src+'\n</원문>'}])
+        except anthropic.AuthenticationError: sys.exit('[API 키 오류] ANTHROPIC_API_KEY가 없거나 틀렸습니다. 명령창에 set ANTHROPIC_API_KEY=키 를 다시 입력하세요.')
+        except anthropic.APIError as e: print('[API 오류]',t,str(e)[:120],'— 이 작품은 건너뜁니다. 다시 실행하면 이어서 진행합니다.'); continue
         raw=''.join(b.text for b in msg.content if b.type=='text'); raw=re.sub(r'^```(json)?|```$','',raw.strip(),flags=re.M).strip()
         try: data=json.loads(raw)
         except Exception: open(out+'.raw.txt','w',encoding='utf-8').write(raw); print('[형식 오류]',t); continue

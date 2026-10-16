@@ -11,6 +11,8 @@ WORLD={'학원','현대','무협','판타지','스릴러','로맨스','일상'}
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--include-seed',action='store_true'); a=ap.parse_args()
     out=[]; flags=[]; seen=set()
+    db=os.path.join(ROOT,'data','characters.json')
+    prev={c['id']:c for c in json.load(open(db,encoding='utf-8'))} if os.path.exists(db) else {}
     files=sorted(glob.glob(os.path.join(ROOT,'data','extracted','*.json')))
     for f in files:
         chars=json.load(open(f,encoding='utf-8')); axes_seen=[]
@@ -34,12 +36,17 @@ def main():
             base=c.get('id') or 'char'; c['id']=base; i=2
             while c['id'] in seen: c['id']=f'{base}{i}'; i+=1
             seen.add(c['id']); c.setdefault('look',{}); c.setdefault('relations',[]); c.setdefault('ending',''); c.setdefault('spoiler',1 if c.get('ending') else 0); c.setdefault('meme','')
+            old=prev.get(c['id'])
+            if old and old.get('verified'): c=old                     # 검수 완료한 캐릭터는 손대지 않음
+            elif old:
+                for k in ('image','image_src'):                        # 수집해 둔 이미지는 유지
+                    if old.get(k) and not c.get(k): c[k]=old[k]
             out.append(c)
             if why: flags.append((c['name'],c['work'],'; '.join(why)))
     if a.include_seed or not out:
-        seed=json.load(open(os.path.join(ROOT,'data','characters.json'),encoding='utf-8'))
-        for s in seed:
-            if s['id'] not in seen: out.append(s); seen.add(s['id'])
+        have={(c['name'],c['work']) for c in out}
+        for s in prev.values():
+            if s['id'] not in seen and (s['name'],s['work']) not in have: out.append(s); seen.add(s['id'])   # 같은 캐릭터는 추출본 우선
     ids={c['id'] for c in out}
     for c in out: c['relations']=[r for r in c['relations'] if r.get('id') in ids]
     json.dump(out,open(os.path.join(ROOT,'data','characters.json'),'w',encoding='utf-8'),ensure_ascii=False,indent=1)

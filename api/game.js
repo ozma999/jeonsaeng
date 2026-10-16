@@ -1,10 +1,12 @@
 import fs from 'fs';
 import path from 'path';
-import { buildProfile, rank, wobble, buildResult, LOOK_OPTS } from '../lib/match.js';
+import { buildProfile, rank, wobble, buildResult, LOOK_OPTS, composition } from '../lib/match.js';
 import { cmd, getJSON, setJSON, usingMemory, misconfigured } from '../lib/store.js';
-import { ORDER, JOBS } from '../lib/questions.js';
+import { ORDER, JOBS, MBTI } from '../lib/questions.js';
 
-export const VERSION='v1.3';
+export const VERSION='v1.8';
+let OVR={};   // 관리자 화면에서 붙여 넣은 이미지 주소 (Redis img:overrides)
+const imgOf=id=>OVR[id]||BY_ID[id]?.image||'';
 const CHARS=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','characters.json'),'utf-8'));
 const BY_ID=Object.fromEntries(CHARS.map(c=>[c.id,c]));
 const ADMIN=(process.env.ADMIN_NAME||'김현우').replace(/\s+/g,'');   // 이 이름으로 들어오면 관리자 메뉴가 열린다 (보안 없음)
@@ -30,10 +32,13 @@ function view(sub, subs){
       if (others.length>1) r.rival={nick:l.nick,name:BY_ID[l.assigned].name,work:BY_ID[l.assigned].work}; }
   }
   const {id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source,quote}=r.char;
-  r.char={id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source,quote}; // 배점 데이터는 내보내지 않음
+  r.char={id,name,work,author,year,world,role,scene,ending,spoiler,meme,image:imgOf(id),source,quote}; // 배점 데이터는 내보내지 않음
   // 희미하게 겹친 또 다른 생 (후보 2순위)
-  const alt=(sub.top||[]).find(t=>t.id!==sub.assigned&&BY_ID[t.id]);
-  r.second=alt?{name:BY_ID[alt.id].name,work:BY_ID[alt.id].work}:null;
+  r.composition=composition(sub.assigned, sub.top||[], BY_ID).map(x=>({...x,image:imgOf(x.id)}));
+  // 맞히기 보기: 배정 캐릭터 + 후보 3명 (섞어서)
+  const opts=[sub.assigned,...(sub.top||[]).map(t=>t.id).filter(id=>id!==sub.assigned&&BY_ID[id])].slice(0,4);
+  r.choices=opts.map(id=>({id,name:BY_ID[id].name,work:BY_ID[id].work})).sort(()=>Math.random()-.5);
+  r.silhouette=imgOf(c.id);
   return { nick:sub.nick, ...r };
 }
 async function allSubs(){ const nicks=await cmd('SMEMBERS','subs')||[]; const out=[]; for(const n of nicks){ const s=await getJSON('sub:'+n); if(s) out.push(s);} return out; }
@@ -70,15 +75,16 @@ export default async function handler(req,res){
   try{
     const q=req.method==='GET'?req.query:(req.body||{});
     const action=q.action;
+    OVR=(await getJSON('img:overrides').catch(()=>null))||{};
     if (misconfigured) return res.status(500).json({error:'Redis가 연결되지 않았습니다. Vercel 환경변수를 확인한 뒤 다시 배포해 주세요.'});
-    if (action==='config') return res.json({revealed:await isRevealed(), demo:usingMemory, jobs:JOBS, version:VERSION});
+    if (action==='config') return res.json({revealed:await isRevealed(), demo:usingMemory, jobs:JOBS, mbti:MBTI, version:VERSION});
 
     if (action==='submit'){
       const nick=cleanNick(q.nick); if(!nick) return res.status(400).json({error:'이름을 입력해 주세요.'});
       const answers={}; for(const k of ORDER){ const v=Number(q.answers?.[k]); if(!Number.isInteger(v)) return res.status(400).json({error:'모든 문항에 답해 주세요.'}); answers[k]=v; }
       const sub={ nick, answers, timings:q.timings||{}, changes:Number(q.changes)||0, skipped:!!q.skipped,
         look:Number.isInteger(q.look)?q.look:null, belief:[0,1,2].includes(q.belief)?q.belief:1,
-        free:String(q.free||'').slice(0,80), job:JOBS.includes(q.job)?q.job:null, at:Date.now() };
+        free:String(q.free||'').slice(0,80), job:JOBS.includes(q.job)?q.job:null, mbti:MBTI.includes(q.mbti)?q.mbti:null, at:Date.now() };
       const prof=buildProfile(sub);
       sub.top=rank(prof,CHARS,sub.look!=null?LOOK_OPTS[sub.look]:null).map(({id,score})=>({id,score}));
       const prev=await getJSON('sub:'+nick);
@@ -106,6 +112,10 @@ export default async function handler(req,res){
         return res.json({revealed:await isRevealed(), demo:usingMemory, subs:subs.map(s=>({nick:s.nick,at:s.at,assigned:s.assigned,locked:!!s.locked,
           top:s.top.map(t=>({id:t.id,score:t.score,name:BY_ID[t.id]?.name,work:BY_ID[t.id]?.work}))})), chars:CHARS.length}); }
       if (op==='reassign') return res.json({ok:true,count:await reassign()});
+      if (op==='chars') return res.json({chars:CHARS.map(c=>({id:c.id,name:c.name,work:c.work,image:imgOf(c.id),override:!!OVR[c.id]}))});
+      if (op==='setImage'){ if(!BY_ID[q.id]) return res.status(400).json({error:'캐릭터를 찾을 수 없습니다.'});
+        const url=String(q.url||'').trim(); if(url&&!/^https?:\/\//.test(url)) return res.status(400).json({error:'http로 시작하는 이미지 주소를 넣어 주세요.'});
+        if(url) OVR[q.id]=url; else delete OVR[q.id]; await setJSON('img:overrides',OVR); return res.json({ok:true}); }
       if (op==='reveal'){ await cmd('SET','config:revealed',q.value?'1':'0'); return res.json({ok:true}); }
       if (op==='override'){ const s=await getJSON('sub:'+cleanNick(q.nick)); if(!s||!BY_ID[q.id]) return res.status(400).json({error:'대상을 찾을 수 없습니다.'});
         if ((await cmd('GET','claim:'+s.assigned))===s.nick) await cmd('DEL','claim:'+s.assigned);
