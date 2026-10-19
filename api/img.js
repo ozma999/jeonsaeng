@@ -4,7 +4,7 @@ export default async function handler(req,res){
   try{
     const u=new URL(String(req.query.u||''));
     if(!/^https?:$/.test(u.protocol)) return res.status(400).end();
-    const r=await fetch(u,{headers:{'User-Agent':'Mozilla/5.0','Referer':REF(u.hostname)||u.origin}});
+    const r=await fetch(u,{headers:{'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36','Accept':'image/avif,image/webp,image/*,*/*;q=0.8','Referer':REF(u.hostname)||u.origin}});
     const type=r.headers.get('content-type')||'';
     if(!r.ok||!type.startsWith('image/')) return res.status(502).end();
     const buf=Buffer.from(await r.arrayBuffer());

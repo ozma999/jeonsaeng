@@ -4,11 +4,13 @@ import { buildProfile, rank, wobble, buildResult, LOOK_OPTS, composition } from 
 import { cmd, getJSON, setJSON, usingMemory, misconfigured } from '../lib/store.js';
 import { ORDER, JOBS, MBTI } from '../lib/questions.js';
 
-export const VERSION='v1.8';
+export const VERSION='v2.0';
 let OVR={};   // 관리자 화면에서 붙여 넣은 이미지 주소 (Redis img:overrides)
 const imgOf=id=>OVR[id]||BY_ID[id]?.image||'';
 const CHARS=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','characters.json'),'utf-8'));
 const BY_ID=Object.fromEntries(CHARS.map(c=>[c.id,c]));
+// 레어도 (scripts/rarity.js 로 생성). 파일이 없으면 등급 없이 동작
+let RARITY={}; try{ RARITY=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','rarity.json'),'utf-8')); }catch{}
 const ADMIN=(process.env.ADMIN_NAME||'김현우').replace(/\s+/g,'');   // 이 이름으로 들어오면 관리자 메뉴가 열린다 (보안 없음)
 
 const cleanNick=n=>String(n||'').replace(/\s+/g,'').slice(0,20);   // 띄어쓰기 무시: '김 현우' = '김현우'
@@ -32,7 +34,9 @@ function view(sub, subs){
       if (others.length>1) r.rival={nick:l.nick,name:BY_ID[l.assigned].name,work:BY_ID[l.assigned].work}; }
   }
   const {id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source,quote}=r.char;
-  r.char={id,name,work,author,year,world,role,scene,ending,spoiler,meme,image:imgOf(id),source,quote}; // 배점 데이터는 내보내지 않음
+  const rr=RARITY[id]||null;
+  r.char={id,name,work,author,year,world,role,scene,ending,spoiler,meme,image:imgOf(id),source,quote,
+    rarity:rr?{grade:rr.g,rate:rr.rate,order:rr.n,total:CHARS.length}:null}; // 배점 데이터는 내보내지 않음
   // 희미하게 겹친 또 다른 생 (후보 2순위)
   r.composition=composition(sub.assigned, sub.top||[], BY_ID).map(x=>({...x,image:imgOf(x.id)}));
   // 맞히기 보기: 배정 캐릭터 + 후보 3명 (섞어서)
