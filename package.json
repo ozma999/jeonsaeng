@@ -1,0 +1,2 @@
+{ "name": "jeonsaeng-webtoon", "private": true, "type": "module", "version": "1.0.0",
+  "scripts": { "simulate": "node scripts/simulate.js" } }

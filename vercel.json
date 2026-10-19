@@ -1,0 +1,10 @@
+{
+ "functions": {
+  "api/game.js": {
+   "includeFiles": "{data,lib}/**"
+  },
+  "api/img.js": {
+   "includeFiles": "data/imgpack_*.json"
+  }
+ }
+}
