@@ -120,6 +120,18 @@ Vercel 환경변수 `ADMIN_NAME`에 다른 이름을 넣고, `index.html`의 `co
   - 결과 카드 무지개 테두리, 초상 홀로그램 반짝임, SYNC 게이지 카운트업, SSR·히든 공개 때 화면 흔들림
 - 움직임 줄이기 설정(prefers-reduced-motion)을 켠 기기에서는 애니메이션이 꺼지고 음악만 나옴
 
+## v2.1 — 결과 페이지에 캐릭터별 본편 서사 추가
+- 346명 전원의 나무위키 문서를 읽고, 문서에서 확인된 내용만으로 서사를 새로 씀 → `data/lore.json`
+- 결과 카드에 세 섹션이 새로 붙음 (판독 결과 바로 아래, SOUL MIX 위)
+  - **REPLAY · 전생 회상록**: 최면사가 들려주는 2인칭 회상 2~3문단 + 명장면(SCENE 01~03). 결말·반전은 '봉인된 기억'에 접어 두고 눌러야 열림
+  - **BONDS · 전생의 인연**: 본편 속 주요 관계 2~4명과 관계 한 줄. 같은 작품 캐릭터가 DB에 있으면 초상도 함께 뜸
+  - **VOICE · 전생의 명대사**: 문서에 인용된 작중 대사 0~2개를 대화창 형식으로
+- '더 알아보기'는 단서·업보·최면사의 메모만 남김 (겹치던 자동 생성 이야기·작품 속 인연·전생의 마지막은 서사가 있으면 숨김)
+- 정확도: 확인도 high 252명, medium 65명, low 29명. low는 문서 정보가 적어 1~2문단으로 짧음
+  - low: baekyejin, chataeseok, dowonpil, geomwoojin, geonkangmi, gwonyeonggu, hansongi, hanyeji, hyeonsohui, jeokigeon, jotaeseop, kangminji, kimbaekhui, kimchangju, kimdongwon, kimjihun_mc, kimjino, kimsan_ah, kimyujeong_sg, leejaesang, leesangyong, nahasha, rumin, shinyeona, shinyura, suji_ma, yangachi, yudayeon, yuseolha
+- 대사는 요약을 거쳐 옮긴 것이라 글자 단위로 원문과 다를 수 있음. 틀린 내용은 `data/lore.json` 에서 해당 id를 찾아 바로 고치면 됨
+- GitHub에 올릴 파일: `index.html`, `api/game.js`, `data/lore.json`, `README.md`
+
 ## v2.0.4 — 캐릭터 이미지를 데이터 파일 3개로 묶음 (GitHub 웹 업로드로도 올라가게)
 - 증상: v2.0.3에서도 실루엣만 뜸. 이미지 346개를 낱개 파일(images/)로 넣었는데, GitHub 웹 업로드는 한 번에 100개까지만 올라가서 이미지가 저장소에 빠진 것으로 보임
 - 해결: 이미지 346장을 `data/imgpack_1.json`·`_2.json`·`_3.json`(각 약 4MB) 세 파일로 묶고, `data/imgpack_index.json` 에 어느 묶음에 있는지 적어 둠

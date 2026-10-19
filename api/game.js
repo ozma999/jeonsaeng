@@ -4,7 +4,7 @@ import { buildProfile, rank, wobble, buildResult, LOOK_OPTS, composition } from 
 import { cmd, getJSON, setJSON, usingMemory, misconfigured } from '../lib/store.js';
 import { ORDER, JOBS, MBTI } from '../lib/questions.js';
 
-export const VERSION='v2.0.4';
+export const VERSION='v2.1';
 let OVR={};   // 관리자 화면에서 붙여 넣은 이미지 주소 (Redis img:overrides)
 // 저장소에 포함된 캐릭터 이미지(data/imgpack_*.json)가 있으면 그걸 먼저 쓴다 → /api/img?id=<id> 로 같은 도메인에서 내려줌
 let PACK={}; try{ PACK=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','imgpack_index.json'),'utf-8')); }catch{}
@@ -12,6 +12,16 @@ const imgOf=id=>OVR[id]||(PACK[id]?`/api/img?id=${id}&v=${VERSION}`:'')||BY_ID[i
 const CHARS=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','characters.json'),'utf-8'));
 const BY_ID=Object.fromEntries(CHARS.map(c=>[c.id,c]));
 // 레어도 (scripts/rarity.js 로 생성). 파일이 없으면 등급 없이 동작
+// 본편 서사 (data/lore.json: 회상록·봉인된 기억·인연·명대사·명장면)
+let LORE={}; try{ LORE=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','lore.json'),'utf-8')); }catch{}
+function loreOf(id){
+  const L=LORE[id]; if(!L) return null; const me=BY_ID[id];
+  const norm=t=>String(t||'').replace(/\s|\(.*?\)/g,'');
+  const bonds=(L.bonds||[]).map(b=>{ const n=norm(b.name);
+    const hit=CHARS.find(x=>x.id!==id&&x.work===me.work&&(norm(x.name)===n||(Math.min(n.length,norm(x.name).length)>=2&&(norm(x.name).includes(n)||n.includes(norm(x.name))))));
+    return {name:b.name,rel:b.rel,line:b.line,image:hit?imgOf(hit.id):''}; });
+  return {story:L.story||[],spoiler:L.spoiler||[],bonds,quotes:L.quotes||[],scenes:L.scenes||[]};
+}
 let RARITY={}; try{ RARITY=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','rarity.json'),'utf-8')); }catch{}
 const ADMIN=(process.env.ADMIN_NAME||'김현우').replace(/\s+/g,'');   // 이 이름으로 들어오면 관리자 메뉴가 열린다 (보안 없음)
 
@@ -38,7 +48,7 @@ function view(sub, subs){
   const {id,name,work,author,year,world,role,scene,ending,spoiler,meme,image,source,quote}=r.char;
   const rr=RARITY[id]||null;
   r.char={id,name,work,author,year,world,role,scene,ending,spoiler,meme,image:imgOf(id),source,quote,
-    rarity:rr?{grade:rr.g,rate:rr.rate,order:rr.n,total:CHARS.length}:null}; // 배점 데이터는 내보내지 않음
+    rarity:rr?{grade:rr.g,rate:rr.rate,order:rr.n,total:CHARS.length}:null, lore:loreOf(id)}; // 배점 데이터는 내보내지 않음
   // 희미하게 겹친 또 다른 생 (후보 2순위)
   r.composition=composition(sub.assigned, sub.top||[], BY_ID).map(x=>({...x,image:imgOf(x.id)}));
   // 맞히기 보기: 배정 캐릭터 + 후보 3명 (섞어서)

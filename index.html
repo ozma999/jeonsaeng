@@ -270,6 +270,33 @@ td select{font-size:13px;padding:4px 6px}
 @keyframes shake{20%{transform:translate(-6px,3px)}40%{transform:translate(5px,-4px)}60%{transform:translate(-4px,-2px)}80%{transform:translate(3px,4px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:420px){h1{font-size:28px}.marquee .logo{font-size:50px}.who .name{font-size:24px}.slide .big{font-size:40px}.card-top .name,.reveal .name{font-size:28px}}
+
+/* v2.1 전생 회상록 */
+.lore .tape{display:flex;justify-content:space-between;align-items:center;font-family:var(--arc);font-size:8px;color:var(--cyan);background:#07031a;border:1px solid var(--line);padding:8px 10px;margin-bottom:14px;letter-spacing:.06em}
+.lore .tape .rec{color:#ff4d6d;animation:recb 1.2s steps(2) infinite}
+@keyframes recb{50%{opacity:.25}}
+.lore .lp{font-size:15.5px;line-height:1.95;color:#efe9ff;margin:0 0 14px;text-align:left;word-break:keep-all;opacity:0;transform:translateY(8px);animation:lpin .7s ease forwards}
+.lore .lp:nth-of-type(2){animation-delay:.25s}.lore .lp:nth-of-type(3){animation-delay:.5s}
+@keyframes lpin{to{opacity:1;transform:none}}
+.lore .lp:first-of-type::first-letter{font-family:var(--logo);font-size:24px;color:var(--neon);text-shadow:2px 2px 0 var(--pink)}
+.scenes{display:flex;flex-direction:column;gap:8px;margin:6px 0 4px}
+.scene{display:flex;gap:10px;align-items:center;background:linear-gradient(90deg,#1a0b3d,#0d0626);border:1px solid var(--line);border-left:6px double var(--pink);padding:9px 12px;text-align:left;font-size:14px;color:#fff}
+.scene b{flex:none;font-family:var(--arc);font-size:8px;color:var(--neon);letter-spacing:.05em}
+details.seal{margin-top:14px;border:2px solid var(--pink);background:repeating-linear-gradient(45deg,#170833 0 10px,#1d0b40 10px 20px);padding:10px 12px;text-align:left}
+details.seal summary{cursor:pointer;list-style:none;font-family:var(--pixel);font-size:14px;color:var(--pink)}
+details.seal summary::before{content:'▣ '} details.seal[open] summary::before{content:'□ '}
+details.seal p{margin:10px 0 0;font-size:15px;line-height:1.9;color:#ffd9f4;word-break:keep-all}
+.bonds{display:grid;grid-template-columns:1fr;gap:10px}
+.bond{display:flex;gap:12px;align-items:center;text-align:left;background:#120836;border:1px solid var(--line);padding:10px;position:relative}
+.bond .portrait.sm{border-color:var(--pink)}
+.bond .bn{font-size:16px;color:#fff;font-weight:700}
+.bond .br{display:inline-block;margin-left:6px;font-size:11px;padding:1px 7px;background:var(--neon);color:#120836;font-weight:700;vertical-align:2px}
+.bond .bl{font-size:13.5px;line-height:1.6;color:#cfc6f5;margin-top:4px;word-break:keep-all}
+.voice{position:relative;background:#07031a;border:3px solid #fff;box-shadow:0 0 0 3px var(--cyan);padding:16px 16px 14px;margin:18px 0 6px;text-align:left}
+.voice::before{content:attr(data-who);position:absolute;top:-12px;left:12px;background:var(--cyan);color:#07031a;font-size:12px;font-weight:700;padding:1px 8px}
+.voice p{font-size:17px;line-height:1.7;color:#fff;margin:0;word-break:keep-all}
+.voice p::after{content:'▼';margin-left:6px;color:var(--neon);font-size:11px;animation:recb 1s steps(2) infinite}
+@media (prefers-reduced-motion:reduce){.lore .lp{opacity:1;transform:none;animation:none}}
 </style>
 </head>
 <body>
@@ -474,7 +501,7 @@ let S={}; let JOBS=['콘텐츠·편집','개발','디자인','사업·마케팅'
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
 const ORDERS={}; for(const k in QS) ORDERS[k]=shuffle(QS[k].o.map((_,i)=>i));
 
-const VERSION='v2.0.4', BUILD='2026.10.19';
+const VERSION='v2.1', BUILD='2026.10.19';
 // 저장소 안의 이미지(/images/...)는 그대로, 외부 주소는 프록시를 거쳐 같은 도메인으로 띄운다
 // 이미지는 브라우저가 원본 주소에서 바로 받는다(나무위키는 서버 쪽 요청을 막는다). 실패하면 프록시 → 실루엣 순으로 대체
 const imgSrc=u=>u||'';
@@ -639,6 +666,17 @@ function guess(r,revealed){
     };
   });
 }
+function loreHtml(c){ const L=c.lore; if(!L||!L.story.length) return '';
+  const sc=L.scenes.map((t,i)=>`<div class="scene"><b>SCENE ${String(i+1).padStart(2,'0')}</b><span>${esc(t)}</span></div>`).join('');
+  const bd=L.bonds.map(b=>`<div class="bond"><div class="portrait sm">${b.image?`<img src="${esc(imgSrc(b.image))}" alt="" referrerpolicy="no-referrer" onerror="imgFail(this)">`:SIL}</div><div><div class="bn">${esc(b.name)}<span class="br">${esc(b.rel)}</span></div><div class="bl">${esc(b.line)}</div></div></div>`).join('');
+  const vq=L.quotes.map(q=>`<div class="voice" data-who="${esc(c.name)}"><p>${esc(q)}</p></div>`).join('');
+  return `<div class="sec lore"><h3>REPLAY · 전생 회상록</h3><div class="tape"><span class="rec">● REC</span><span>${esc(c.work)} · ${esc(c.year)}</span><span>PLAY ▶</span></div>
+      ${L.story.map(p=>`<p class="lp">${esc(p)}</p>`).join('')}
+      ${sc?`<div class="scenes">${sc}</div>`:''}
+      ${L.spoiler.length?`<details class="seal"><summary>봉인된 기억 — 결말·반전 스포일러 (눌러서 해제)</summary>${L.spoiler.map(p=>`<p>${esc(p)}</p>`).join('')}</details>`:''}</div>
+    ${bd?`<div class="sec"><h3>BONDS · 전생의 인연</h3><div class="bonds">${bd}</div></div>`:''}
+    ${vq?`<div class="sec"><h3>VOICE · 전생의 명대사</h3>${vq}</div>`:''}`;
+}
 function result(r,revealed,fresh){ setTrack('result');
   const c=r.char;
   const comp=(r.composition||[]).map((x,i)=>`<div class="comp"><span>${esc(x.name)} <span class="muted">· ${esc(x.work)}</span></span><b>${x.pct}%</b><div class="bar"><i style="width:${x.pct}%" class="${i?'':'on'}"></i></div></div>`).join('');
@@ -654,18 +692,19 @@ function result(r,revealed,fresh){ setTrack('result');
       <p class="verdict">${esc(r.verdict||'')}</p><p class="kw">${esc((r.keywords||[]).join('  '))}</p>
       ${c.rarity?`<p class="rate g-${c.rarity.grade}">${rateText(c.rarity)}</p>`:''}
       <div class="sync"><span>SYNC</span><div class="bar"><i class="on" style="width:${r.depth||0}%"></i></div><span>${r.depth||0}%</span></div></div>
-    ${c.quote?`<p class="quote">“${esc(c.quote)}”</p>`:''}
+    ${c.quote&&!(c.lore&&c.lore.quotes.length)?`<p class="quote">“${esc(c.quote)}”</p>`:''}
+    ${loreHtml(c)}
     <div class="sec"><h3>SOUL MIX · 당신의 영혼 구성</h3>${comp}</div>
     ${r.mbti?`<div class="sec"><h3>현생 ${esc(r.mbti.now)} → 전생 ${esc(r.mbti.past)} <span class="muted">(최면사 추정)</span></h3><p>${esc(r.mbti.line)}</p></div>`:''}
     <div class="sec"><h3>모임날</h3>${social}</div>
-    <details class="sec more"><summary>더 알아보기 — 전생 이야기, 단서, 업보</summary>
-      <div style="margin-top:12px">${r.story.map(s=>`<p>${esc(s)}</p>`).join('')}</div>
+    <details class="sec more"><summary>${c.lore?'더 알아보기 — 단서, 업보, 최면사의 메모':'더 알아보기 — 전생 이야기, 단서, 업보'}</summary>
+      ${c.lore?'':`<div style="margin-top:12px">${r.story.map(s=>`<p>${esc(s)}</p>`).join('')}</div>`}
       <h3>전생이 남긴 단서</h3><ol>${r.evidence.map(e=>`<li>${esc(e)}</li>`).join('')}</ol>
       ${r.diff?`<h3>현생으로 넘어오며 달라진 것</h3><p>${esc(r.diff)}</p>`:''}
       ${r.regret?`<h3>전생에 남긴 미련</h3><p>${esc(r.regret)}</p>`:''}
       ${r.karma?`<h3>현생 업보</h3><p>${esc(r.karma)}</p>`:''}
-      ${c.ending?`<h3>전생의 마지막 ${c.spoiler?'(스포일러 — 눌러서 보기)':''}</h3><p class="${c.spoiler?'spoil':''}" onclick="this.classList.add('open')">${esc(c.ending)}</p>`:''}
-      ${r.relations&&r.relations.length?`<h3>작품 속 인연</h3><ol>${r.relations.map(x=>`<li>${esc(x.name)} — ${esc(x.type)}</li>`).join('')}</ol>`:''}
+      ${c.ending&&!(c.lore&&c.lore.spoiler.length)?`<h3>전생의 마지막 ${c.spoiler?'(스포일러 — 눌러서 보기)':''}</h3><p class="${c.spoiler?'spoil':''}" onclick="this.classList.add('open')">${esc(c.ending)}</p>`:''}
+      ${!(c.lore&&c.lore.bonds.length)&&r.relations&&r.relations.length?`<h3>작품 속 인연</h3><ol>${r.relations.map(x=>`<li>${esc(x.name)} — ${esc(x.type)}</li>`).join('')}</ol>`:''}
       <h3>최면사의 메모</h3><p class="muted">${esc(r.memo||'')} · 최면 깊이 ${r.depth}%</p>
     </details>
     <div class="watermark">사내 동호회 모임용 · 외부 공유 금지</div>
