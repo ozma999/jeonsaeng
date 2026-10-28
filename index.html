@@ -615,6 +615,7 @@
   };
   const M2 = {
     bell(d, x, b) { d.R(x - 2, b - 3, 32, 3, '#9a9690'); [x, x + 26].forEach(px => d.R(px + 2, b - 18, 2, 15, '#b0453a')); d.R(x - 4, b - 21, 36, 3, '#2e3238'); d.R(x, b - 25, 28, 4, '#2e3238'); d.dome(x + 14, b - 6, 5, '#3a5a4a'); d.R(x + 9, b - 6, 11, 2, '#3a5a4a'); },
+    iceRiver(d, r) { for (let y = HZ; y < H; y++) { const t = (y - HZ) / (H - HZ), w = 14 + t * 40, cx = 64 + Math.sin(y / 5) * 5; d.R(0, y, cx - w / 2 - 1, 1, '#e8eef8'); d.R(cx + w / 2 + 1, y, W, 1, '#e8eef8'); d.R(cx - w / 2, y, w, 1, y % 3 ? '#c8dcf0' : '#b8d0ea'); d.P(cx - w / 2 - 1, y, '#8a7a6a'); d.P(cx + w / 2, y, '#8a7a6a'); } for (let k = 0; k < 5; k++) { const y = HZ + 6 + k * 4, cx = 64 + Math.sin(y / 5) * 5 - 6 + (k % 2) * 8; d.R(cx, y, 7, 3, '#f4f8ff'); d.R(cx, y, 7, 1, '#ffffff'); d.R(cx + 6, y, 1, 3, '#98b0c8'); } d.R(70, HZ + 14, 1, 6, '#6b4a2e'); d.R(66, HZ + 13, 9, 1, '#6b4a2e'); },
     ice(d, b) { d.R(0, b, W, H - b, '#c8dcf0'); for (let k = 0; k < 14; k++) d.R((k * 29) % W, b + 2 + (k * 5) % 20, 10, 1, '#f4f8ff'); for (let k = 0; k < 6; k++) { const x = 20 + k * 16, y = b + 8 + (k % 2) * 4; d.R(x, y, 8, 5, '#e8f4ff'); d.R(x, y, 8, 1, '#ffffff'); d.R(x + 7, y, 1, 5, '#a8c0d8'); } },
     snow(d, r, n = 60) { for (let k = 0; k < n; k++) { const x = Math.floor(r() * W), y = Math.floor(r() * H); d.P(x, y, '#ffffff'); if (k % 4 === 0) d.P(x + 1, y, '#e8f0ff'); } },
     rain(d, r) { for (let k = 0; k < 70; k++) { const x = Math.floor(r() * W), y = Math.floor(r() * H); d.line(x, y, x - 1, y + 3, 'rgba(200,220,255,0.55)'); } d.R(0, 0, W, H, 'rgba(40,50,80,0.12)'); },
@@ -655,7 +656,7 @@
   const ADD = {
     joseon_port: [
       { indoor: 'kr', draw: (d, r) => { d.R(96, 34, 22, 16, '#5a3a22'); d.R(98, 36, 18, 12, '#6b4a2e'); d.P(107, 42, '#e6c35a'); d.R(18, 30, 2, 20, '#3a2a1a'); d.R(16, 28, 6, 3, '#e8c890'); d.P(19, 27, '#ff8a2a'); M.jars(d, 70, 50, 2); }, spots: [24, 44] },
-      { land: '들', sky: '아침', draw: (d, r) => { M2.ice(d, HZ); M.hanok(d, 96, HZ - 1); M2.snow(d, r, 30); }, spots: [8, 40, 70] },
+      { land: '강', sky: '아침', draw: (d, r) => { M2.iceRiver(d, r); M.hanok(d, 96, HZ - 1); M.hanok(d, 4, HZ - 1, '#3a3030'); M2.snow(d, r, 30); }, spots: [8, 96] },
       { land: '강', sky: '밤', draw: d => { M.sailboat(d, 10, HZ + 2); M.sailboat(d, 92, HZ + 3, '#d8b070'); M.lanterns(d, 40, HZ - 8, 5, '#ffd25a'); d.R(38, HZ - 10, 42, 1, '#3a2a1a'); }, spots: [6, 100] },
     ],
     joseon_market: [
@@ -805,20 +806,115 @@
     ],
   };
   for (const id in ADD) SCENE[id].v.push(...ADD[id]);
+  // ---------- v3.9 물가 장면 추가 (물가에 산 사람에게만 나옴: wOnly) ----------
+  const M3 = {
+    shore(d, y, c = '#c8b088', edge = '#8a7a5a') { d.R(0, y, W, H - y, c); d.R(0, y, W, 1, edge); for (let x = 3; x < W; x += 9) d.P(x, y + 3 + (x % 3), mix(c, -0.15)); },
+    quay(d, y, c = '#9a9690') { d.R(0, y, W, H - y, c); d.R(0, y, W, 2, mix(c, 0.2)); for (let j = y + 3; j < H; j += 4) for (let i = (j % 8 ? 0 : 5); i < W; i += 10) d.R(i, j, 9, 1, mix(c, -0.15)); for (let x = 10; x < W; x += 30) { d.R(x, y - 3, 2, 3, '#3a3a42'); } },
+    brook(d, y0, y1) { for (let y = y0; y < y1; y++) { const cx = 64 + Math.sin(y / 3) * 10; d.R(cx - 12, y, 24, 1, y % 2 ? '#4a8ad8' : '#5aa0e0'); d.P(cx - 13, y, '#7a7a80'); d.P(cx + 12, y, '#7a7a80'); } },
+    washStones(d, x, y) { for (let k = 0; k < 4; k++) { d.R(x + k * 9, y, 7, 3, '#8a8680'); d.R(x + k * 9, y, 7, 1, '#b8b4ac'); } for (let k = 0; k < 3; k++) d.R(x + 2 + k * 9, y - 2, 4, 2, '#f4f0e6'); d.R(x + 34, y - 1, 2, 3, '#6b4a2e'); },
+    cliff(d, x, b, w = 44, h = 26) { for (let i = 0; i < w; i++) { const hh = Math.round(h * (0.75 + 0.25 * Math.sin(i / 6))); d.R(x + i, b - hh, 1, hh, i % 4 ? '#8a7a6a' : '#7a6a5a'); } for (let k = 0; k < 6; k++) d.R(x + 4 + k * 7, b - h + 6 + (k % 3) * 5, 4, 1, '#6a5a4a'); M.pine(d, x + 8, b - h + 4, 14); M.pine(d, x + w - 10, b - h + 2, 12); },
+    sandbar(d, x, y, w) { for (let j = -3; j <= 3; j++) { const ww = Math.round(w / 2 * Math.sqrt(1 - (j * j) / 10)); d.R(x + w / 2 - ww, y + j, ww * 2, 1, j < 0 ? '#e8d8b0' : '#d8c498'); } for (let k = 0; k < 4; k++) d.P(x + 8 + k * 7, y - 1, '#f4ecd0'); },
+    junk(d, x, b) { d.R(x, b + 3, 30, 4, '#6a3a1a'); d.R(x - 2, b + 1, 4, 3, '#6a3a1a'); d.R(x + 28, b, 4, 4, '#6a3a1a'); d.R(x + 2, b + 7, 26, 1, '#3a2010'); [8, 20].forEach((m, i) => { d.R(x + m, b - 16 + i * 3, 1, 19 - i * 3, '#2a1a10'); for (let j = 0; j < 14 - i * 3; j += 3) d.R(x + m - 5 + i, b - 15 + i * 3 + j, 10 - i, 2, j % 6 ? '#c8603a' : '#a84a2a'); }); d.P(x + 29, b + 1, '#f4f0e6'); },
+    sampan(d, x, b) { d.R(x, b + 3, 16, 2, '#5a3a20'); d.R(x + 4, b, 8, 3, '#c8a060'); d.arc(x + 8, b, 4, 3, '#a8803a'); d.line(x + 14, b - 2, x + 18, b + 6, '#5a3a1a'); },
+    maiden(d, x, b) { d.R(x - 6, b + 2, 26, 4, '#6a6a72'); d.R(x, b - 14, 14, 16, '#efe6d2'); d.R(x + 4, b - 26, 6, 12, '#efe6d2'); d.tri(x + 7, b - 26, 4, 6, '#5a6a8a'); d.R(x + 2, b - 10, 3, 4, '#5a4a3a'); d.R(x + 9, b - 10, 3, 4, '#5a4a3a'); d.P(x + 7, b - 33, '#e6c35a'); },
+    laundry(d, x, y, n = 6) { d.line(x, y, x + n * 9, y + 1, '#f4f0e6'); d.R(x, y, 1, 14, '#6b4a2e'); d.R(x + n * 9, y, 1, 14, '#6b4a2e'); for (let k = 0; k < n; k++) d.R(x + 3 + k * 9, y + 1, 6, 6 + (k % 2) * 2, ['#e8303a', '#e8a020', '#3a6ad8', '#c83a8a', '#2a8a7a', '#f4f0e6'][k % 6]); },
+    staithes(d, x, b) { d.R(x, b - 18, 40, 3, '#5a3a22'); for (let i = x; i < x + 40; i += 6) d.R(i, b - 15, 2, 22, '#4a2e1a'); for (let k = 0; k < 3; k++) { d.R(x + 6 + k * 12, b - 24, 8, 6, '#3a3a42'); d.puff(x + 10 + k * 12, b - 24, 3, '#1e1c22'); d.line(x + 10 + k * 12, b - 15, x + 12 + k * 12, b - 2, '#2a2a30'); } },
+    keel(d, x, b) { d.R(x, b + 3, 22, 3, '#3a2a1a'); d.R(x + 2, b, 18, 3, '#1e1c22'); d.puff(x + 11, b, 4, '#1e1c22'); d.R(x + 10, b - 12, 1, 12, '#2a1a10'); d.R(x + 11, b - 11, 7, 8, '#a8885a'); },
+    paddle(d, x, b) { d.R(x, b + 2, 36, 4, '#2a2a32'); d.R(x + 4, b - 4, 26, 6, '#efe6d2'); d.R(x + 14, b - 14, 4, 10, '#2a2a32'); d.plume(x + 16, b - 17, 5, 1.8, '#5a5a68', '#7a7a88'); d.dome(x + 9, b + 2, 5, '#8a3a2a'); for (let i = x + 6; i < x + 30; i += 5) d.R(i, b - 2, 2, 2, '#3a5a8a'); },
+    bouq(d, y) { for (let k = 0; k < 6; k++) { const x = 4 + k * 21; d.R(x, y - 6, 16, 6, '#2a4a3a'); d.R(x, y - 7, 16, 1, '#3a6a4a'); for (let i = 0; i < 5; i++) d.R(x + 2 + i * 3, y - 5, 2, 4, ['#c83a3a', '#e8d8b0', '#3a5aa8', '#8a5a2a', '#f4f0e6'][i]); } },
+    barge(d, x, b) { d.R(x, b + 3, 34, 4, '#4a3a2a'); d.R(x + 2, b, 30, 3, '#6a5a4a'); for (let i = x + 4; i < x + 30; i += 7) d.puff(i + 3, b, 2, '#8a6a42'); d.R(x + 28, b - 6, 4, 6, '#efe6d2'); },
+    lotus(d, b) { for (let k = 0; k < 16; k++) { const x = 4 + k * 8 + (k % 3), y = b + 4 + (k % 4) * 3; d.R(x, y, 5, 2, '#3a8a4a'); d.R(x + 1, y - 1, 3, 1, '#4aa85a'); if (k % 2) { d.P(x + 2, y - 2, '#f08aa0'); d.P(x + 1, y - 2, '#f8b8c8'); d.P(x + 3, y - 2, '#f8b8c8'); } } },
+    ingotBridge(d, x, b) { for (let i = 0; i < 30; i++) { const y = Math.round(Math.sin(i / 30 * Math.PI) * 6); d.R(x + i, b - y - 3, 1, 3 + y, '#b8b4ac'); } d.arc(x + 15, b, 6, 4, '#2a68b8', 3); for (let i = x; i < x + 30; i += 3) { const y = Math.round(Math.sin((i - x) / 30 * Math.PI) * 6); d.P(i, b - y - 5, '#8a8680'); } },
+    logs(d, x, b, n = 8) { for (let k = 0; k < n; k++) { d.R(x + (k % 2) * 3, b + k * 2, 40, 2, k % 2 ? '#8a6a42' : '#a07a4a'); d.P(x + (k % 2) * 3, b + k * 2, '#c8a070'); } },
+    lanternBoats(d, b) { for (let k = 0; k < 4; k++) { const x = 6 + k * 30; d.R(x, b + 4 + (k % 2) * 6, 20, 2, '#3a2a1a'); d.R(x + 4, b + (k % 2) * 6, 12, 4, '#5a3a22'); d.R(x + 7, b - 3 + (k % 2) * 6, 3, 3, '#ffd25a'); d.puff(x + 8, b - 2 + (k % 2) * 6, 4, 'rgba(255,210,100,0.22)'); d.R(x, b + 7 + (k % 2) * 6, 20, 1, 'rgba(255,210,100,0.35)'); } },
+    breakwater(d, x, y, w) { for (let i = 0; i < w; i += 4) { d.R(x + i, y - (i % 8 ? 2 : 3), 4, 4, '#3a3a42'); d.P(x + i + 1, y - 2, '#5a5a62'); } },
+    burano(d, x, b) { const cs = ['#e8303a', '#3a8ad8', '#e8c030', '#3ab86a', '#e86aa0', '#8a5ae8']; for (let k = 0; k < 6; k++) { const hx = x + k * 13; d.R(hx, b - 16, 12, 16, cs[k]); d.R(hx - 1, b - 17, 14, 1, '#c8603a'); d.R(hx + 2, b - 13, 3, 4, '#f4f0e6'); d.R(hx + 7, b - 13, 3, 4, '#f4f0e6'); d.R(hx + 4, b - 6, 4, 6, '#3a2a1a'); } },
+    arcade(d, x, b, w = 128) { d.R(x, b - 18, w, 18, '#efd8a8'); for (let i = x + 3; i < x + w - 6; i += 9) { d.R(i, b - 10, 6, 10, '#6a4a3a'); d.arc(i + 3, b - 10, 3, 3, '#6a4a3a'); d.R(i + 1, b - 16, 4, 4, '#5a4a3a'); } d.R(x, b - 19, w, 1, '#c8a878'); },
+  };
+  const WADD = {
+    joseon_donghak: [
+      { land: '갯벌', draw: d => { M.sailboat(d, 30, HZ + 2, '#d8b070'); M.sailboat(d, 70, HZ + 3); M.jars(d, 96, HZ + 14, 4); M.choga(d, 4, HZ + 4); M3.shore(d, H - 8); }, spots: [12, 100] },
+      { land: '갯벌', sky: '저녁', draw: d => { M2.saltpans(d, HZ); M.ferry(d, 52, HZ + 1); M3.shore(d, H - 8); }, spots: [6, 104] },
+      { land: '갯벌', sky: '밤', draw: d => { M3.lanternBoats(d, HZ); M.choga(d, 100, H - 8); M3.shore(d, H - 8); }, spots: [8, 60] },
+    ],
+    belle_paris: [
+      { land: '강', draw: d => { M.seineBridge(d, HZ - 2); M3.barge(d, 46, HZ + 6); M3.quay(d, H - 10, '#b8b0a0'); M3.bouq(d, H - 10); }, spots: [10, 64, 100] },
+      { land: '강', sky: '저녁', draw: d => { M.eiffel(d, 30, HZ); M3.barge(d, 60, HZ + 10); M.lampPost(d, 100, H - 10); M3.quay(d, H - 10, '#b8b0a0'); }, spots: [6, 80] },
+    ],
+    joseon_court: [
+      { land: '들', draw: d => { M.fortWall(d, 0, HZ, 128, '#8a8680'); M.hanok(d, 96, HZ - 10); M3.brook(d, HZ, H); M3.washStones(d, 30, HZ + 14); M.willow(d, 112, HZ + 6); }, spots: [6, 100] },
+      { land: '들', sky: '저녁', draw: d => { M2.autumn(d, 0, HZ + 2, 6); M3.brook(d, HZ, H); M.bridgeStone(d, 44, HZ + 12, 40); }, spots: [6, 104] },
+    ],
+    joseon_enlight: [
+      { land: '강', draw: d => { M3.paddle(d, 44, HZ + 4); M.sailboat(d, 8, HZ + 2, '#d8b070'); M.hanok(d, 100, HZ - 1); }, spots: [6, 100] },
+      { land: '강', sky: '밤', draw: d => { M.hanok(d, 4, HZ - 1); M.hanok(d, 100, HZ - 1, '#3a3030'); M3.lanternBoats(d, HZ + 4); }, spots: [6, 100] },
+    ],
+    joseon_namsadang: [
+      { land: '물가', draw: d => { M.sailboat(d, 10, HZ - 6); M.sailboat(d, 84, HZ - 5, '#d8b070'); M.stall(d, 4, HZ + 20, '#f4f0e6'); M.stall(d, 100, HZ + 20, '#e8d8b0'); M.flags(d, 50, HZ + 18, ['#c83a3a', '#ffd25a', '#3a8a5a']); }, spots: [30, 78] },
+      { land: '강', sky: '저녁', draw: d => { M.ferry(d, 44, HZ + 6); M.flags(d, 50, HZ + 4, ['#c83a3a', '#ffd25a', '#f4f0e6']); M.willow(d, 8, HZ + 2); }, spots: [12, 100] },
+    ],
+    joseon_seonbi: [
+      { land: '강', draw: d => { M3.cliff(d, 0, HZ + 2, 46); M.ferry(d, 54, HZ + 8); M.choga(d, 104, HZ); M.pine(d, 96, HZ + 2); }, spots: [8, 100] },
+      { land: '강', sky: '아침', draw: d => { M3.sandbar(d, 44, HZ + 10, 40); M.sailboat(d, 20, HZ + 2, '#e8c890'); M.pine(d, 8, HZ + 2, 24); M.pine(d, 112, HZ + 4); }, spots: [6, 100] },
+    ],
+    qing_beijing: [
+      { land: '물가', draw: d => { M.willow(d, 10, HZ + 6); M.willow(d, 110, HZ + 6); M3.ingotBridge(d, 50, HZ + 4); M3.lotus(d, HZ - 2); M.hutong(d, 0, HZ - 10); }, spots: [24, 90] },
+      { land: '물가', sky: '아침', draw: (d, r) => { M2.ice(d, HZ); d.R(0, HZ + 10, W, H - HZ - 10, '#8a7a5a'); M2.skaters(d, HZ - 2, r); M.pailou(d, 50, HZ - 4); }, spots: [8, 100] },
+    ],
+    railway_north: [
+      { land: '강', draw: d => { M3.staithes(d, 6, HZ + 6); M3.keel(d, 60, HZ + 6); M3.keel(d, 90, HZ + 12); }, spots: [52, 104] },
+      { land: '강', sky: '저녁', draw: d => { M.chimneys(d, 0, HZ); M3.paddle(d, 54, HZ + 6); }, spots: [8, 100] },
+    ],
+    edo_town: [
+      { land: '물가', draw: d => { M.nagaya(d, 0, HZ - 2, 128); M3.logs(d, 20, HZ + 2, 4); M.ferry(d, 80, HZ - 2); }, spots: [30, 90] },
+      { land: '물가', sky: '밤', draw: d => { M.nagaya(d, 0, HZ - 2, 128); M.lanterns(d, 6, HZ - 22, 15, '#ffd25a'); M3.lanternBoats(d, HZ - 2); }, spots: [20, 96] },
+    ],
+    joseon_pyeongan: [
+      { land: '강', draw: d => { M.ferry(d, 46, HZ + 4); M.choga(d, 100, HZ); M.pine(d, 10, HZ + 4); }, spots: [6, 100] },
+      { land: '눈', sky: '아침', draw: (d, r) => { M2.iceRiver(d, r); M.choga(d, 6, HZ); M2.snow(d, r, 30); }, spots: [6, 100] },
+    ],
+    victorian_factory: [
+      { land: '강', draw: d => { M.mill(d, 0, HZ); M.narrowboat(d, 46, HZ + 6); M3.barge(d, 82, HZ + 14); }, spots: [6, 104] },
+      { land: '물가', sky: '저녁', draw: d => { M2.cranes(d, 20, HZ + 10); M.steamship(d, 60, HZ - 4); M.warehouse(d, 0, HZ + 10); }, spots: [56, 100] },
+    ],
+    agra_taj: [{ land: '강', draw: d => { M.ghat(d, 0, HZ + 2); M3.laundry(d, 64, HZ - 8, 6); M.elephant(d, 100, HZ + 14); }, spots: [8, 30] }],
+    amsterdam_tulip: [{ land: '바다', sky: '저녁', draw: d => { M.sailship(d, 4, HZ); M.sailship(d, 44, HZ + 2); M.sailship(d, 86, HZ - 1); M3.quay(d, H - 9); }, spots: [10, 60, 100] }],
+    batavia: [{ land: '강', draw: d => { M3.junk(d, 46, HZ + 4); M3.sampan(d, 20, HZ + 12); M.kotaHouse(d, 96, HZ - 2); }, spots: [6, 100] }],
+    dejima_nagasaki: [{ land: '바다', draw: d => { M2.nets(d, 4, HZ + 18); M.sailboat(d, 60, HZ + 2, '#f4f0e6'); M3.shore(d, H - 12); M.choga(d, 96, H - 12); }, spots: [52, 76] }],
+    goldrush: [{ land: '강', sky: '아침', draw: d => { M3.cliff(d, 0, HZ + 2, 40, 30); M3.cliff(d, 90, HZ + 2, 38, 26); M.sluice(d, 44, HZ + 10); }, spots: [6, 100] }],
+    istanbul_bazaar: [{ land: '바다', draw: d => { M3.maiden(d, 56, HZ + 2); M.caique(d, 16, HZ + 10); M.mosque(d, 92, HZ - 2, '#c8ccd8', '#a8b0c0'); M3.quay(d, H - 8); }, spots: [8, 100] }],
+    joseon_ganghwa: [{ land: '강', draw: d => { M.fortWall(d, 70, HZ - 2, 58, '#8a8680'); M.ferry(d, 40, HZ + 6); M.choga(d, 4, HZ); }, spots: [8, 100] }],
+    joseon_jeju: [{ land: '바다', draw: d => { M3.breakwater(d, 20, HZ + 10, 80); M.sailboat(d, 50, HZ + 2, '#e8dcc0'); M3.shore(d, H - 10, '#3a3a42', '#2a2a30'); M.jejuChoga(d, 100, H - 10); }, spots: [8, 76] }],
+    joseon_tongsinsa: [{ land: '바다', sky: '저녁', draw: d => { M.sailboat(d, 16, HZ + 2); M.sailboat(d, 70, HZ + 4, '#d8b070'); M.pine(d, 112, H - 9); M3.shore(d, H - 9); }, spots: [8, 60] }],
+    lisbon_port: [{ land: '바다', draw: d => { M3.arcade(d, 0, HZ); M.sailship(d, 40, HZ + 6); M3.quay(d, H - 8, '#d8ccb0'); }, spots: [8, 100] }],
+    neva_city: [{ land: '강', draw: d => { M3.logs(d, 44, HZ + 6, 6); M.izba(d, 96, HZ); M.izba(d, 2, HZ); }, spots: [30, 100] }],
+    venice: [{ land: '바다', draw: d => { M3.burano(d, 24, HZ); M.gondola(d, 40, HZ + 6); M3.quay(d, H - 8, '#c8bca8'); }, spots: [8, 100] }],
+    joseon_port: [{ land: '강', sky: '저녁', draw: d => { M3.washStones(d, 14, HZ + 16); M.sailboat(d, 50, HZ + 2, '#d8b070'); M.willow(d, 112, HZ + 4); }, spots: [6, 100] }],
+    london_theatre: [{ land: '강', draw: d => { M.theatre(d, 90, HZ); M.ferry(d, 40, HZ + 8); M3.quay(d, H - 8, '#9a8a78'); }, spots: [6, 64] }],
+    suez_portsaid: [{ land: '바다', sky: '저녁', draw: d => { M.lighthouse(d, 20, HZ); M2.felucca(d, 70, HZ + 4); M3.quay(d, H - 8, '#d8c8a0'); }, spots: [40, 100] }],
+  };
+  for (const id in WADD) WADD[id].forEach(v => SCENE[id].v.push({ ...v, wOnly: true }));
   // ---------- 조립 ----------
-  function cultureOf(packId, ni) { const f = CULT_BY_NAME[packId]; return f && Number.isInteger(ni) ? f(ni) : (SCENE[packId] || SCENE.joseon_market).c; }
+  function cultureOf(packId, ni, nc) { if (nc === 'hindu' || nc === 'muslim') return 'in'; if (nc) return nc; const f = CULT_BY_NAME[packId]; return f && Number.isInteger(ni) && ni < 16 ? f(ni) : (SCENE[packId] || SCENE.joseon_market).c; }
+  const WATER_PLACE = /나루|포구|포$|강|운하|부두|항구|바다|바닷|해변|선창|(?<!고)갯|물가|섬|개울|둑|가트|스차하이|모래톱|협곡/;
+  const WATER_DRAW = /brook|lotus|junk|quay|canal|lake|stream|iceRiver|seineBridge|londonBridge|rialto|gondola|caique|ferry|sailboat|raft|bateau|narrowboat|ghat|pavilion/;
+  const isWater = v => !v.indoor && (['바다', '강', '갯벌', '물가'].includes(v.land) || WATER_DRAW.test(String(v.draw)));
   G.pixelScene = function (packId, opt = {}) {
     const S = SCENE[packId] || SCENE.joseon_market, r = rng((opt.seed || '') + packId);
-    const vi = Number.isInteger(opt.variant) ? opt.variant % S.v.length : Math.floor(r() * S.v.length), V = S.v[vi];
+    const all = S.v.map((v, i) => i), pl = String(opt.place || '');
+    let pool = all.filter(i => !S.v[i].wOnly);
+    if (pl && WATER_PLACE.test(pl)) { const w = all.filter(i => isWater(S.v[i])); if (w.length) pool = w; }
+    else if (pl) { const dry = pool.filter(i => !['바다', '갯벌'].includes(S.v[i].land)); if (dry.length) pool = dry; }
+    const vi = Number.isInteger(opt.variant) ? opt.variant % S.v.length : pool[Math.floor(r() * pool.length)], V = S.v[vi];
     const slot = opt.slot || V.sky || ['새벽', '아침', '낮', '저녁', '밤'][Math.floor(r() * 5)];
     const cv = document.createElement('canvas'); cv.width = W; cv.height = H; const ctx = cv.getContext('2d'); const d = painter(ctx);
     if (V.indoor) { ROOM[V.indoor](d, slot, r); V.draw(d, r); if (slot === '밤') { ctx.fillStyle = 'rgba(20,10,40,0.22)'; ctx.fillRect(0, 0, W, H); } }
     else { sky(d, slot, r); (LAND[V.land] || LAND.도시골목)(d, r); V.draw(d, r); }
     if (V.indoor) {} else if (slot === '밤') { ctx.fillStyle = 'rgba(10,12,50,0.28)'; ctx.fillRect(0, HZ, W, H - HZ); } else if (slot === '저녁' || slot === '새벽') { ctx.fillStyle = 'rgba(120,40,80,0.12)'; ctx.fillRect(0, HZ, W, H - HZ); }
     if (opt.figure !== false) {
-      const job = opt.job || '', cult = cultureOf(packId, opt.ni), g = opt.g === 'f' ? 'f' : 'm';
+      const job = opt.job || '', cult = cultureOf(packId, opt.ni, opt.nc), g = opt.g === 'f' ? 'f' : 'm';
       const spots = V.spots || LR, fx = Number.isInteger(opt.figureX) ? opt.figureX : spots[Math.floor(r() * spots.length)];
-      const o = { jobName: job, formal: FORMAL.test(job), job: WARJOB.test(job) ? 'war' : '', style: S.st || '', muslim: packId === 'agra_taj' && Number.isInteger(opt.ni) && (opt.ni >= 12 || (opt.ni >= 4 && opt.ni <= 7)), flip: fx > W / 2 };
+      const o = { jobName: job, formal: FORMAL.test(job), job: WARJOB.test(job) ? 'war' : '', style: S.st || '', muslim: opt.nc ? opt.nc === 'muslim' : packId === 'agra_taj' && Number.isInteger(opt.ni) && (opt.ni >= 12 || (opt.ni >= 4 && opt.ni <= 7)), flip: fx > W / 2 };
       sprite(d, fx, H - 34, cult, g, rng((opt.seed || '') + 'body'), o);
     }
     for (let y = 0; y < H; y += 2) { ctx.fillStyle = 'rgba(0,0,0,0.05)'; ctx.fillRect(0, y, W, 1); }
@@ -827,6 +923,8 @@
   };
   G.PIXEL_PACKS = Object.keys(SCENE);
   G.PIXEL_VARIANTS = 6;
+  G.pixelPool = (id, place) => { const S = SCENE[id]; return S.v.map((v, i) => i).filter(i => WATER_PLACE.test(place) ? isWater(S.v[i]) : !S.v[i].wOnly && !['바다', '갯벌'].includes(S.v[i].land)); };
+  G.pixelCount = () => Object.values(SCENE).reduce((a, S) => a + S.v.length, 0);
 })(typeof window !== 'undefined' ? window : globalThis);
 
 </script>
@@ -1176,7 +1274,7 @@ details.seal p{margin:10px 0 0;font-size:15px;line-height:1.9;color:#ffd9f4;word
 .pl-tl li.real::before{border-color:var(--neon);background:var(--neon)}
 .pl-when{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin-bottom:4px}
 .pl-when b{font-family:var(--arc);font-size:10px;color:var(--neon);font-weight:400}
-.pl-when span{font-size:13px;color:var(--cyan)}
+.pl-when span{font-family:"Galmuri14",var(--pixel);font-size:14px;color:var(--cyan)}
 .pl-when i{font-style:normal;font-size:11px;font-weight:700;color:#07031a;background:var(--neon);padding:0 6px}
 .pl-tl p{margin:0;font-size:16px;line-height:1.95;color:#f3eeff;word-break:keep-all}
 .pl-tl li.real p{background:linear-gradient(180deg,rgba(255,225,77,.08),rgba(25,247,255,.05));border:1px solid var(--line);border-left:4px solid var(--neon);padding:10px 12px}
@@ -1192,8 +1290,8 @@ details.pl-src a{color:var(--neon)}
 .chip.on{color:#07031a;background:var(--neon);border-color:var(--neon)}
 
 /* v3.1 */
-.lg{display:inline-flex;flex-direction:column;align-items:center;font-family:var(--arc);font-size:16px;color:#07031a;background:var(--neon);padding:6px 12px;margin-bottom:10px}
-.lg small{font-family:var(--pixel);font-size:11px;margin-top:2px}
+.lg{display:block;width:max-content;max-width:100%;margin-left:auto;margin-right:auto;text-align:center;line-height:1.4;font-family:var(--arc);font-size:16px;color:#07031a;background:var(--neon);padding:6px 12px;margin-bottom:10px}
+.lg small{display:block;font-family:"Galmuri14",var(--pixel);font-size:14px;margin-top:4px}
 .lg.g-SSR{background:linear-gradient(90deg,#ff2bd6,#ffe14d,#19f7ff)}.lg.g-SR{background:var(--pink);color:#fff}.lg.g-R{background:var(--cyan)}.lg.g-N{background:#cfc6f5}
 .lifeno{margin:12px 0 0;font-size:13px;color:#cfc6f5}.lifeno b{color:var(--neon)}
 .pl-when u{text-decoration:none;font-size:11px;color:#cfc6f5;border:1px solid var(--line);padding:0 6px}
@@ -1216,6 +1314,7 @@ details.pl-src a{color:var(--neon)}
 .sc-tw{display:flex;gap:10px;align-items:center;text-align:left;border-top:1px solid var(--line);padding-top:10px;margin-top:4px}.sc-tw .tm-pic{width:40px;height:50px}.sc-tw b{display:block;font-size:11px;color:var(--pink);font-weight:400}.sc-tw span{font-size:13px;color:#fff}
 .mu{list-style:none;padding:0;margin:0 0 10px;text-align:left}.mu li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.7;word-break:keep-all}.mu-t{display:inline-block;font-size:11px;color:#07031a;background:var(--cyan);padding:0 6px;margin-right:6px}.mu-x{text-align:left;font-size:14px;line-height:1.7;margin-top:10px;word-break:keep-all}.mu-x b{color:var(--pink)}
 .eramap{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:20px}.era{border:1px solid var(--line);padding:12px 14px;text-align:left;background:rgba(13,6,38,.85)}
+.sc-real b,.sc-end b,.sc-tw span,.mu li b,.mu-x b,.tm-n,.pxcap{font-family:"Galmuri14",var(--pixel)!important}.sc-real b,.sc-end b{font-size:14px!important}
 .sharecard{position:fixed;left:-2000px;top:0;width:360px;background:#0d0626;border:3px solid var(--neon);box-shadow:0 0 0 3px var(--pink);padding:18px 18px 16px;text-align:center;color:#fff}
 .sc-top{display:flex;justify-content:space-between;font-family:var(--arc);font-size:8px;color:var(--cyan);margin-bottom:14px}
 .sc-g{display:inline-block;font-size:13px;font-weight:700;color:#07031a;background:var(--cyan);padding:2px 10px}.sc-g.g-SSR{background:var(--neon)}.sc-g.g-SR{background:var(--pink);color:#fff}.sc-g.g-N{background:#cfc6f5}
@@ -1428,7 +1527,7 @@ let S={}; let JOBS=['콘텐츠·편집','개발','디자인','사업·마케팅'
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
 const ORDERS={}; for(const k in QS) ORDERS[k]=shuffle(QS[k].o.map((_,i)=>i));
 
-const VERSION='v3.6', BUILD='2026.10.28';
+const VERSION='v3.9', BUILD='2026.10.29';
 // 저장소 안의 이미지(/images/...)는 그대로, 외부 주소는 프록시를 거쳐 같은 도메인으로 띄운다
 // 이미지는 브라우저가 원본 주소에서 바로 받는다(나무위키는 서버 쪽 요청을 막는다). 실패하면 프록시 → 실루엣 순으로 대체
 const imgSrc=u=>u||'';
@@ -1686,7 +1785,7 @@ function result(r,revealed,fresh){ setTrack('result');
       ${r.karma?`<div class="tile"><b>현생 업보</b><span>${esc(r.karma)}</span></div>`:''}
       <div class="tile"><b>최면사의 메모</b><span>${esc(r.memo||'')} 최면 깊이 ${r.depth}%.</span></div></div></div>
     <div class="sec"><h3>SOUL MIX <em>당신의 영혼 구성</em></h3>${comp}</div>`;
-  const pxImg = LF && window.pixelScene ? pixelScene(LF.profile.pack,{slot:['새벽','아침','낮','저녁','밤'][LF.profile.slot],seed:LF.profile.name+LF.profile.by,g:LF.profile.g,ni:LF.profile.ni,job:LF.profile.job}) : '';
+  const pxImg = LF && window.pixelScene ? pixelScene(LF.profile.pack,{slot:['새벽','아침','낮','저녁','밤'][LF.profile.slot],seed:LF.profile.name+LF.profile.by,g:LF.profile.g,ni:LF.profile.ni,nc:LF.profile.nc,place:LF.profile.place,job:LF.profile.job}) : '';
   const pxHtml = pxImg ? `<img class="pxs" src="${pxImg}" alt=""><p class="pxcap">${esc(LF.profile.place)} · ${LF.profile.by}년 무렵 · 최면 중 떠오른 풍경</p>` : '';
   const lifeHtml = LF ? `<div class="pl">
       <div class="pl-card">${pxHtml}<div class="lg g-${LF.profile.grade}">${LF.profile.grade}<small>이 시대가 나올 확률 약 ${LF.profile.rate}%</small></div>
@@ -1826,7 +1925,7 @@ async function present(){ setTrack('title');
   let d; try{ d=await api({action:'present',adminCode},'GET'); }
   catch(e){ return show(`<h1 style="font-size:26px">발표 모드</h1><p class="muted" style="margin-top:12px">${esc(e.message)} 첫 화면에서 관리자 이름으로 들어오거나, 인연 공개를 켠 뒤 다시 열어 주세요.</p><div class="row"><a class="btn" href="?admin" style="text-decoration:none">관리자로 이동</a></div>`); }
   const list=shuffle(d.results.filter(r=>r.life)); let i=0, stage=0; const MAP=d.map||{eras:[],relay:[]};
-  const pxOf=r=>{ const P=r.life.profile; return window.pixelScene?pixelScene(P.pack,{slot:['새벽','아침','낮','저녁','밤'][P.slot],seed:P.name+P.by,g:P.g,ni:P.ni,job:P.job}):''; };
+  const pxOf=r=>{ const P=r.life.profile; return window.pixelScene?pixelScene(P.pack,{slot:['새벽','아침','낮','저녁','밤'][P.slot],seed:P.name+P.by,g:P.g,ni:P.ni,nc:P.nc,place:P.place,job:P.job}):''; };
   function render(){
     if(i>=list.length) return bondsView();
     const r=list[i], P=r.life.profile, end=r.life.timeline.find(t=>t.tag==='마지막'), M=r.meet||{bonds:[]};

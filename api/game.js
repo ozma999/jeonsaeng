@@ -9,7 +9,7 @@ import { buildProfile, rank, wobble, buildResult, LOOK_OPTS, composition } from 
 import { cmd, getJSON, setJSON, usingMemory, misconfigured } from '../lib/store.js';
 import { ORDER, JOBS, MBTI } from '../lib/questions.js';
 
-export const VERSION='v3.6';
+export const VERSION='v3.9';
 let OVR={};   // 관리자 화면에서 붙여 넣은 이미지 주소 (Redis img:overrides)
 // 저장소에 포함된 캐릭터 이미지(data/imgpack_*.json)가 있으면 그걸 먼저 쓴다 → /api/img?id=<id> 로 같은 도메인에서 내려줌
 let PACK={}; try{ PACK=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','imgpack_index.json'),'utf-8')); }catch{}
