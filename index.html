@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>전생체험 — 당신은 전생에 어떤 웹툰 캐릭터였나</title>
+<title>전생체험 — 당신은 전생에 누구였나</title>
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -1212,6 +1212,10 @@ details.pl-src a{color:var(--neon)}
 .pxs{display:block;width:100%;border:3px solid #07031a;box-shadow:0 0 0 2px var(--neon);margin:0 0 6px}
 .pxcap{font-family:var(--pixel);font-size:11px;color:#9a92c4;margin:0 0 14px;text-align:center}
 .sharecard .pxs{margin:0 0 4px}
+.tmini .tm{display:flex;gap:12px;align-items:flex-start;text-align:left}.tm-pic{flex:none;width:52px;height:64px;overflow:hidden;border:2px solid var(--pink);background:#3a0c5c}.tm-pic img{width:100%;height:100%;object-fit:cover}.tm-n{font-size:15px;color:#fff;font-weight:700}.tm-n span{font-weight:400;color:#9a92c4;font-size:13px}.tm-t p{margin:4px 0 0;font-size:13px;line-height:1.7;color:#cfc6f5;word-break:keep-all}
+.sc-tw{display:flex;gap:10px;align-items:center;text-align:left;border-top:1px solid var(--line);padding-top:10px;margin-top:4px}.sc-tw .tm-pic{width:40px;height:50px}.sc-tw b{display:block;font-size:11px;color:var(--pink);font-weight:400}.sc-tw span{font-size:13px;color:#fff}
+.mu{list-style:none;padding:0;margin:0 0 10px;text-align:left}.mu li{padding:8px 0;border-bottom:1px dashed var(--line);font-size:14px;line-height:1.7;word-break:keep-all}.mu-t{display:inline-block;font-size:11px;color:#07031a;background:var(--cyan);padding:0 6px;margin-right:6px}.mu-x{text-align:left;font-size:14px;line-height:1.7;margin-top:10px;word-break:keep-all}.mu-x b{color:var(--pink)}
+.eramap{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:20px}.era{border:1px solid var(--line);padding:12px 14px;text-align:left;background:rgba(13,6,38,.85)}
 .sharecard{position:fixed;left:-2000px;top:0;width:360px;background:#0d0626;border:3px solid var(--neon);box-shadow:0 0 0 3px var(--pink);padding:18px 18px 16px;text-align:center;color:#fff}
 .sc-top{display:flex;justify-content:space-between;font-family:var(--arc);font-size:8px;color:var(--cyan);margin-bottom:14px}
 .sc-g{display:inline-block;font-size:13px;font-weight:700;color:#07031a;background:var(--cyan);padding:2px 10px}.sc-g.g-SSR{background:var(--neon)}.sc-g.g-SR{background:var(--pink);color:#fff}.sc-g.g-N{background:#cfc6f5}
@@ -1417,14 +1421,14 @@ const QS={
   q9:{t:'시간이 흘러, 당신 곁에 누군가 서 있습니다.\n누구인가요?',o:['평생 나를 이기려 했던 라이벌','함께 목숨을 걸었던 동료들','단 한 사람','고양이 한 마리']},
   q10:{t:'눈을 감기 전,\n당신이 남기는 말은?',o:['"아직… 끝나지 않았다."','"다들, 고마웠어."','"다음 생엔 꼭…"','"……배고프다."']},
 };
-const FLOW=['narr:a','q1','q2','q3','narr:b','q4','q5','q6','q7','q8','q9','narr:c','q10','bonus','wake'];
+const FLOW=['narr:a','q1','q2','q3','narr:b','q4','q5','q6','q7','q8','q9','narr:c','q10','wake'];
 const LOOKS=['안경을 쓰고 있다','짧은 머리','긴 머리','날카로운 인상','포근한 인상'];
 let MBTIS=['ISTJ','ISFJ','INFJ','INTJ','ISTP','ISFP','INFP','INTP','ESTP','ESFP','ENFP','ENTP','ESTJ','ESFJ','ENFJ','ENTJ'];
 let S={}; let JOBS=['콘텐츠·편집','개발','디자인','사업·마케팅','경영지원','기타'];
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];}return a;};
 const ORDERS={}; for(const k in QS) ORDERS[k]=shuffle(QS[k].o.map((_,i)=>i));
 
-const VERSION='v3.4', BUILD='2026.10.28';
+const VERSION='v3.6', BUILD='2026.10.28';
 // 저장소 안의 이미지(/images/...)는 그대로, 외부 주소는 프록시를 거쳐 같은 도메인으로 띄운다
 // 이미지는 브라우저가 원본 주소에서 바로 받는다(나무위키는 서버 쪽 요청을 막는다). 실패하면 프록시 → 실루엣 순으로 대체
 const imgSrc=u=>u||'';
@@ -1440,11 +1444,13 @@ const normName=n=>String(n||'').replace(/\s+/g,'');
 function gate(msg=''){ setTrack('title');
   const saved=JSON.parse(localStorage.getItem('js_gate')||'{}');
   show(`<div class="hiscore"><span>1UP <b>${esc(saved.nick||'PLAYER')}</b></span><span>HI-SCORE <b>999990</b></span></div>
-  <div class="marquee"><div class="logo">전생체험</div><div class="sub1">PAST LIFE SCANNER</div><div class="tagline">당신은 전생에 어떤 웹툰 캐릭터였나</div></div>
+  <div class="marquee"><div class="logo">전생체험</div><div class="sub1">PAST LIFE SCANNER</div><div class="tagline">당신은 전생에 누구였나</div></div>
   ${PEND}<div class="insert">INSERT SOUL</div>
-  <p class="muted" style="margin-top:18px">약 3분 동안, 열 개의 장면을 지나게 됩니다. 정답은 없습니다. 떠오르는 대로 고르세요. 소리를 켜고 들어가시길 권합니다.</p>
+  <p class="muted" style="margin-top:18px">약 2분 동안, 열 개의 장면을 지나게 됩니다. 정답은 없습니다. 떠오르는 대로 고르세요. 소리를 켜고 들어가시길 권합니다.</p>
   <label for="nick">이름 (본명 · 모임날 이 이름으로 불립니다)</label><input id="nick" maxlength="20" autocomplete="name" value="${esc(saved.nick||'')}">
   <p class="note" style="margin-top:6px">동명이인이 있으면 이름 뒤에 팀명을 붙여 주세요 (예: 김현우컷츠)</p>
+  <label for="by">태어난 해</label><select id="by"><option value="">고르세요</option>${(()=>{const a=[];for(let y=2010;y>=1950;y--)a.push(`<option${+saved.year===y?' selected':''}>${y}</option>`);return a.join('');})()}</select>
+  <p class="note" style="margin-top:6px">영혼이 쉬어 간 시간을 계산하는 데만 씁니다. 날짜는 묻지 않습니다.</p>
   <div class="row" style="justify-content:center"><button class="btn" id="go">▶ 영혼 1개 투입하기</button></div><div class="err" id="err">${esc(msg)}</div>
   <p class="ver">${VERSION} · ${BUILD}${SERVER_VERSION&&SERVER_VERSION!==VERSION?` · 서버 ${esc(SERVER_VERSION)} (서버 파일이 아직 이전 버전입니다)`:''}</p>`);
   $('#nick').onkeydown=e=>{ if(e.key==='Enter') $('#go').click(); };
@@ -1452,13 +1458,15 @@ function gate(msg=''){ setTrack('title');
   $('#go').onclick=async()=>{
     const nick=normName($('#nick').value);
     if(!nick){$('#err').textContent='이름을 입력해 주세요.';return;}
+    const year=+$('#by').value||0;
     $('#go').disabled=true;
     try{ const r=await api({action:'me',nick},'GET');
-      localStorage.setItem('js_gate',JSON.stringify({nick}));
-      S={nick,answers:{},timings:{},changes:0,skipped:false,look:null,belief:1,free:'',job:null,step:0,year:'',slot:null,sib:null,land:null,fear:null,mark:null};
+      localStorage.setItem('js_gate',JSON.stringify({nick,year:year||saved.year||''}));
+      S={nick,answers:{},timings:{},changes:0,skipped:false,look:null,belief:1,free:'',job:null,step:0,year:year||'',slot:null,sib:null,land:null,fear:null,mark:null};
       if(nick===ADMIN_NAME){ sessionStorage.setItem('js_admin',nick); return adminMenu(r); }
       if(r.result) return already(r);
-      pretalk();
+      if(!year){ $('#err').textContent='태어난 해를 골라 주세요.'; $('#go').disabled=false; return; }
+      breathe();
     }catch(e){ $('#err').textContent=e.message; $('#go').disabled=false; }
   };
 }
@@ -1468,15 +1476,19 @@ function adminMenu(r){
     <button class="opt" id="m1">${r.result?'내 전생 기록 보기':'전생 체험하기'}</button>
     <button class="opt" id="m2">관리자 화면 — 응답 현황, 재배정, 인연 공개</button>
     <button class="opt" id="m3">발표 모드 — 모임날 진행용</button></div>`);
-  $('#m1').onclick=()=> r.result?already(r):pretalk();
+  $('#m1').onclick=()=> r.result?already(r):startHypno();
   $('#m2').onclick=()=>admin(ADMIN_NAME); $('#m3').onclick=present;
 }
 function already(r){
   show(`<p class="qno">기록 발견</p><h1 style="font-size:26px">${esc(S.nick)}님의 전생 기록이 이미 남아 있습니다.</h1>
   <p class="muted" style="margin-top:12px">다시 최면을 걸면 기존 기록은 새 기록으로 바뀝니다. 다른 기기에서도 같은 이름이면 이 기록이 열립니다.</p>
   <div class="row"><button class="btn" id="see">기록 다시 보기</button><button class="btn ghost" id="redo">다시 최면 걸기</button></div>`);
-  $('#see').onclick=()=>result(r.result,r.revealed); $('#redo').onclick=pretalk;
+  $('#see').onclick=()=>result(r.result,r.revealed); $('#redo').onclick=startHypno;
 }
+function startHypno(){ if(S.year) return breathe();
+  show(`<p class="qno">최면 전 대화</p><div class="sub" id="s"></div><label for="by2">태어난 해</label><select id="by2"><option value="">고르세요</option>${(()=>{const a=[];for(let y=2010;y>=1950;y--)a.push(`<option>${y}</option>`);return a.join('');})()}</select><div class="err" id="err"></div><div class="row"><button class="btn" id="n">시작</button></div>`);
+  type($('#s'),'당신이 이번 생에 도착한 해를 알려 주세요.');
+  $('#n').onclick=()=>{ const v=+$('#by2').value; if(!v){ $('#err').textContent='태어난 해를 골라 주세요.'; return; } S.year=v; breathe(); }; }
 function pretalk(){ setTrack('deep');
   show(`<p class="qno">최면 전 대화</p><div class="sub" id="s"></div><div class="opts" id="o"></div>`);
   type($('#s'),'시작하기 전에 하나만 여쭙겠습니다.\n전생을 믿으십니까?',()=>{
@@ -1565,7 +1577,7 @@ function wake(){ setTrack('deep');
   show(`${PEND}<div class="sub plain" id="s" style="text-align:center"></div><div class="err" id="err"></div>`);
   const send=api({action:'submit',nick:S.nick,mbti:S.mbti,answers:S.answers,timings:S.timings,changes:S.changes,skipped:S.skipped,look:S.look,belief:S.belief,free:S.free,job:S.job,year:S.year,slot:S.slot,sib:S.sib,land:S.land,fear:S.fear,mark:S.mark});
   type($('#s'),'이제 깨어납니다.\n하나…\n둘…\n셋.\n눈을 뜨세요.',async()=>{
-    try{ const r=await send; recall(r.result,r.revealed); }
+    try{ const r=await send; result(r.result,r.revealed,true); }
     catch(e){ $('#err').innerHTML=esc(e.message)+' <button class="btn ghost" id="re">다시 시도</button>'; $('#re').onclick=wake; }
   });
 }
@@ -1634,7 +1646,13 @@ function dexView(r,revealed){ setTrack('result');
 function result(r,revealed,fresh){ setTrack('result');
   const c=r.char;
   const comp=(r.composition||[]).map((x,i)=>`<div class="comp"><span>${esc(x.name)} <span class="muted">· ${esc(x.work)}</span></span><b>${x.pct}%</b><div class="bar"><i style="width:${x.pct}%" class="${i?'':'on'}"></i></div></div>`).join('');
-  const social = revealed
+  const M=r.meet;
+  const socialLife = !revealed ? '<p class="muted">전생 인연 · 소울메이트 · 라이벌은 모임날 공개됩니다.</p>'
+    : !M ? '<p class="muted">아직 인연을 찾을 사람이 없습니다.</p>'
+    : `${M.bonds.length?`<ul class="mu">${M.bonds.map(x=>`<li><span class="mu-t">${esc(x.type)}</span><b>${esc(x.nick)}님</b> <span class="muted">· 그 시절 ${esc(x.name)}, ${esc(x.job)}</span><br>${esc(x.line)}</li>`).join('')}</ul>`:'<p class="muted">같은 시대·같은 동네에서 온 영혼은 아직 없습니다.</p>'}
+       ${M.soulmate?`<div class="mu-x"><b>소울메이트</b> — ${esc(M.soulmate.nick)}님 <span class="muted">(그 시절 ${esc(M.soulmate.name)} · ${esc(M.soulmate.era)})</span><br>${esc(M.soulmate.line)}</div>`:''}
+       ${M.rival?`<div class="mu-x"><b>전생의 라이벌</b> — ${esc(M.rival.nick)}님 <span class="muted">(그 시절 ${esc(M.rival.name)} · ${esc(M.rival.job)})</span><br>${esc(M.rival.line)}</div>`:''}`;
+  const socialOld = revealed
     ? `${r.bonds&&r.bonds.length?`<p><b>전생 인연</b> — ${r.bonds.map(b=>`${esc(b.nick)}님(${esc(b.name)}, ${esc(b.type)})`).join(', ')}</p>`:'<p class="muted">같은 작품에서 온 영혼은 없었습니다.</p>'}
        ${r.soulmate?`<p><b>소울메이트</b> — ${esc(r.soulmate.nick)}님 (전생의 ${esc(r.soulmate.name)})</p>`:''}
        ${r.rival?`<p><b>전생의 라이벌</b> — ${esc(r.rival.nick)}님 (전생의 ${esc(r.rival.name)})</p>`:''}`
@@ -1652,6 +1670,22 @@ function result(r,revealed,fresh){ setTrack('result');
       ${L.quotes.length?`<h4>그 사람의 명대사</h4>${L.quotes.map(q=>`<div class="voice" data-who="${esc(c.name)}"><p>${esc(q)}</p></div>`).join('')}`:''}
     </div><button class="btn ghost lk-btn" id="lkb">원작 속 그 사람 더 보기 ▼</button>` : '';
   const LF=r.life;
+  const twinMini = `<div class="sec tmini"><h3>ANOTHER LIFE <em>같은 영혼의 또 다른 생</em></h3><div class="tm"><div class="tm-pic">${portrait(c)}</div><div class="tm-t"><div class="tm-n">${esc(c.name)}<span> · ${esc(c.work)}</span></div>${r.echo?`<p>${esc(r.echo)}</p>`:''}</div></div></div>`;
+  const oldTwin = `<div class="sec look"><h3>ANOTHER LIFE <em>같은 영혼의 또 다른 생</em></h3>${r.echo?`<p class="echo">${esc(r.echo)}</p>`:'<p class="note" style="margin:-4px 0 12px;text-align:left">같은 영혼이 다른 세계에서 살았던 생입니다.</p>'}
+      <div class="lk-card card-top">${c.rarity?`<div class="rank g-${c.rarity.grade}" title="레어도">${c.rarity.grade}</div>`:''}
+        <div class="portrait big">${portrait(c)}</div>
+        <div class="name">${esc(c.name)}</div><div class="work">${esc([c.work,c.author,c.year].filter(Boolean).join(' · '))}</div>
+        <p class="verdict">${esc(r.verdict||'')}</p><p class="kw">${esc((r.keywords||[]).join('  '))}</p>
+        ${c.rarity?`<p class="rate g-${c.rarity.grade}">${rateText(c.rarity)}</p>`:''}
+        <div class="sync"><span>SYNC</span><div class="bar"><i class="on" style="width:${r.depth||0}%"></i></div><span>${r.depth||0}%</span></div></div>
+      ${L&&L.story.length?`<p class="lp lk-lead">${esc(L.story[0])}</p>`:(c.scene?`<p class="lk-lead">${esc(c.scene)}.</p>`:'')}
+      ${more}</div>
+    <div class="sec now"><h3>AFTER <em>현생으로 넘어오며</em></h3><div class="tiles">
+      ${r.mbti?`<div class="tile"><b>현생 ${esc(r.mbti.now)} → 전생 ${esc(r.mbti.past)}</b><span>${esc(r.mbti.line)}</span></div>`:''}
+      ${r.diff?`<div class="tile"><b>달라진 것</b><span>${esc(r.diff)}</span></div>`:''}
+      ${r.karma?`<div class="tile"><b>현생 업보</b><span>${esc(r.karma)}</span></div>`:''}
+      <div class="tile"><b>최면사의 메모</b><span>${esc(r.memo||'')} 최면 깊이 ${r.depth}%.</span></div></div></div>
+    <div class="sec"><h3>SOUL MIX <em>당신의 영혼 구성</em></h3>${comp}</div>`;
   const pxImg = LF && window.pixelScene ? pixelScene(LF.profile.pack,{slot:['새벽','아침','낮','저녁','밤'][LF.profile.slot],seed:LF.profile.name+LF.profile.by,g:LF.profile.g,ni:LF.profile.ni,job:LF.profile.job}) : '';
   const pxHtml = pxImg ? `<img class="pxs" src="${pxImg}" alt=""><p class="pxcap">${esc(LF.profile.place)} · ${LF.profile.by}년 무렵 · 최면 중 떠오른 풍경</p>` : '';
   const lifeHtml = LF ? `<div class="pl">
@@ -1669,7 +1703,6 @@ function result(r,revealed,fresh){ setTrack('result');
       <h3 class="pl-h">LIFE LOG <em>출생부터 죽음까지</em></h3>
       <ol class="pl-tl">${LF.timeline.map((t,i)=>`<li class="${t.real?'real':''}"><div class="pl-when"><b>${esc(t.when)}</b><span>${esc(t.tag)}</span>${t.real?'<i>기록 대조 · 일치</i>':(i<LF.timeline.length-1?'<u>최면 진술</u>':'')}</div><p>${esc(t.text)}</p></li>`).join('')}</ol>
       ${LF.traces.length?`<h3 class="pl-h">TRACE <em>현생에 남은 흔적</em></h3><ul class="pl-tr">${LF.traces.map(t=>`<li>${esc(t)}</li>`).join('')}</ul>`:''}
-      ${r.lifeCross&&r.lifeCross.length?`<h3 class="pl-h">CROSS <em>그 시대를 함께 산 사람</em></h3><ul class="pl-tr">${r.lifeCross.map(x=>`<li><b>${esc(x.nick)}님</b> — 그 시절 ${esc(x.name)}, ${esc(x.job)} (${x.by}년생)</li>`).join('')}</ul>`:''}
       <div class="hn"><b>최면사 노트</b><p>진술 ${LF.note.said}건 중 ${LF.note.matched}건이 당대 기록과 일치합니다. 나머지는 확인할 기록이 남아 있지 않습니다.</p>
         <p class="hn-f"><i>기록 대조</i> ${esc(LF.note.fact)} ${LF.note.source?`<a href="${esc(LF.note.source)}" target="_blank" rel="noopener">[기록]</a>`:''}</p></div>
     </div>` : '';
@@ -1694,22 +1727,8 @@ function result(r,revealed,fresh){ setTrack('result');
   show(`<div class="vs">YOUR PAST LIFE IS<b>판독 완료!</b></div><div class="sheet" id="sheet">
     <div class="tc"><span>1UP · ${esc(r.nick)}</span><span>PAST LIFE RECORD</span></div>
     ${LF?lifeHtml:P?pastHtml:taleHtml}
-    <div class="sec look"><h3>ANOTHER LIFE <em>같은 영혼의 또 다른 생</em></h3>${r.echo?`<p class="echo">${esc(r.echo)}</p>`:'<p class="note" style="margin:-4px 0 12px;text-align:left">같은 영혼이 다른 세계에서 살았던 생입니다.</p>'}
-      <div class="lk-card card-top">${c.rarity?`<div class="rank g-${c.rarity.grade}" title="레어도">${c.rarity.grade}</div>`:''}
-        <div class="portrait big">${portrait(c)}</div>
-        <div class="name">${esc(c.name)}</div><div class="work">${esc([c.work,c.author,c.year].filter(Boolean).join(' · '))}</div>
-        <p class="verdict">${esc(r.verdict||'')}</p><p class="kw">${esc((r.keywords||[]).join('  '))}</p>
-        ${c.rarity?`<p class="rate g-${c.rarity.grade}">${rateText(c.rarity)}</p>`:''}
-        <div class="sync"><span>SYNC</span><div class="bar"><i class="on" style="width:${r.depth||0}%"></i></div><span>${r.depth||0}%</span></div></div>
-      ${L&&L.story.length?`<p class="lp lk-lead">${esc(L.story[0])}</p>`:(c.scene?`<p class="lk-lead">${esc(c.scene)}.</p>`:'')}
-      ${more}</div>
-    <div class="sec now"><h3>AFTER <em>현생으로 넘어오며</em></h3><div class="tiles">
-      ${r.mbti?`<div class="tile"><b>현생 ${esc(r.mbti.now)} → 전생 ${esc(r.mbti.past)}</b><span>${esc(r.mbti.line)}</span></div>`:''}
-      ${r.diff?`<div class="tile"><b>달라진 것</b><span>${esc(r.diff)}</span></div>`:''}
-      ${r.karma?`<div class="tile"><b>현생 업보</b><span>${esc(r.karma)}</span></div>`:''}
-      <div class="tile"><b>최면사의 메모</b><span>${esc(r.memo||'')} 최면 깊이 ${r.depth}%.</span></div></div></div>
-    <div class="sec"><h3>SOUL MIX <em>당신의 영혼 구성</em></h3>${comp}</div>
-    <div class="sec"><h3>MEET-UP <em>모임날</em></h3>${social}</div>
+    ${LF?twinMini:oldTwin}
+    <div class="sec"><h3>MEET-UP <em>모임날 · 전생 인연</em></h3>${LF?socialLife:socialOld}</div>
     <div class="watermark">사내 동호회 모임용 · 외부 공유 금지</div>
   </div>
   ${fresh?'<p class="note">응답 마감 후 전체 배정이 한 번 다시 이루어집니다. 전생의 기억은 모임날 더 선명해질 수 있습니다.</p>':''}
@@ -1739,7 +1758,7 @@ function result(r,revealed,fresh){ setTrack('result');
         <p class="sc-meta">${LF.profile.by}년 ~ ${LF.profile.dy}년 · ${esc(LF.profile.job)}</p>
         <div class="sc-real"><i>기록 대조 · 일치</i><b>${real.when}년 ${esc(real.tag)}</b><p>${esc(real.text)}</p></div>
         <div class="sc-end"><b>${end.when}년 · 마지막</b><p>${esc(end.core||end.text)}</p></div>
-        <p class="sc-twin">같은 영혼의 또 다른 생 · ${esc(c.name)} (${esc(c.work)})</p><p class="sc-foot">사내 동호회 모임용 · 외부 공유 금지</p>`;
+        <div class="sc-tw"><div class="tm-pic">${portrait(c)}</div><div><b>같은 영혼의 또 다른 생</b><span>${esc(c.name)} · ${esc(c.work)}</span></div></div><p class="sc-foot">사내 동호회 모임용 · 외부 공유 금지</p>`;
       document.body.appendChild(box); await new Promise(r=>setTimeout(r,80));
       try{ const cv=await html2canvas(box,{backgroundColor:'#0d0626',scale:2,useCORS:true}); const a=document.createElement('a'); a.download=`전생카드_${r.nick}.png`; a.href=cv.toDataURL('image/png'); a.click(); } finally { box.remove(); } };
     const busy=b=>{b.disabled=true;b.textContent='최면 중…';};
@@ -1754,7 +1773,7 @@ function result(r,revealed,fresh){ setTrack('result');
     const iv=setInterval(()=>{ v=Math.min(tgt,v+3); bi.style.width=v+'%'; lab.textContent=v+'%'; if(v%9===0) blip(400+v*8,.03); if(v>=tgt) clearInterval(iv); },28); } }
   $('#cp').onclick=async()=>{ const t=`🕹️ 전생체험 결과\n${r.nick}의 전생은… ${r.life?`*${r.life.profile.name}* [${r.life.profile.grade}] — ${r.life.profile.era}의 ${r.life.profile.job} (${r.life.profile.by}~${r.life.profile.dy})\n함께한 역사: ${r.life.profile.anchor.year}년 ${r.life.profile.anchor.title}\n같은 영혼의 또 다른 생: `:''}${!r.life&&r.past?`*${r.past.profile.name}* — ${r.past.profile.born.slice(0,5)} ${r.past.profile.place_then}의 ${r.past.profile.job} (${r.past.profile.anchor.year}년 ${r.past.profile.anchor.title})\n영혼이 쉬어 간 시간: ${r.past.profile.gap.y}년\n그 시절 닮은 사람: `:''}${!r.life&&!r.past&&r.tale?`「${r.tale.title}」의 *${r.tale.name}* (${r.tale.world})\n그 시절 닮은 사람: `:''}*${c.name}* (${c.work})${c.rarity?` [${c.rarity.grade} · 등장 확률 ${c.rarity.rate<0.01?'0.01% 미만':c.rarity.rate+'%'}]`:''}\n${r.verdict||''}\n영혼 구성: ${(r.composition||[]).map(x=>x.name+' '+x.pct+'%').join(' · ')}`;
     try{ await navigator.clipboard.writeText(t); $('#cp').textContent='복사했습니다'; }catch{ prompt('아래 문구를 복사하세요',t); } };
-  $('#redo').onclick=()=>{ for(const k in ORDERS) ORDERS[k]=shuffle(ORDERS[k]); S={...S,answers:{},timings:{},changes:0,skipped:false,look:null,free:'',job:null,mbti:null,step:0}; pretalk(); };
+  $('#redo').onclick=()=>{ for(const k in ORDERS) ORDERS[k]=shuffle(ORDERS[k]); S={...S,answers:{},timings:{},changes:0,skipped:false,look:null,free:'',job:null,mbti:null,step:0}; startHypno(); };
 }
 
 /* ───────── 관리자 ───────── */
@@ -1806,26 +1825,25 @@ async function present(){ setTrack('title');
   const adminCode=sessionStorage.getItem('js_admin')||'';
   let d; try{ d=await api({action:'present',adminCode},'GET'); }
   catch(e){ return show(`<h1 style="font-size:26px">발표 모드</h1><p class="muted" style="margin-top:12px">${esc(e.message)} 첫 화면에서 관리자 이름으로 들어오거나, 인연 공개를 켠 뒤 다시 열어 주세요.</p><div class="row"><a class="btn" href="?admin" style="text-decoration:none">관리자로 이동</a></div>`); }
-  const list=shuffle(d.results); let i=0, stage=0;
-  const ROLE={주인공:'이야기의 한가운데에 선 사람',라이벌:'주인공이 넘어서야 했던 사람',조력자:'누군가의 곁을 지킨 사람',흑막:'모든 일의 뒤편에 있던 사람',감초:'모두를 웃게 하던 사람',엑스트라:'이름이 잘 불리지 않던 사람'};
+  const list=shuffle(d.results.filter(r=>r.life)); let i=0, stage=0; const MAP=d.map||{eras:[],relay:[]};
+  const pxOf=r=>{ const P=r.life.profile; return window.pixelScene?pixelScene(P.pack,{slot:['새벽','아침','낮','저녁','밤'][P.slot],seed:P.name+P.by,g:P.g,ni:P.ni,job:P.job}):''; };
   function render(){
     if(i>=list.length) return bondsView();
-    const r=list[i], c=r.char;
-    const hints=`<p class="hint">· ${esc(r.story[0])}</p><p class="hint">· ${esc(ROLE[c.role]||'')}</p><p class="hint">· ${esc(r.evidence[0]||'')}</p>`;
+    const r=list[i], P=r.life.profile, end=r.life.timeline.find(t=>t.tag==='마지막'), M=r.meet||{bonds:[]};
+    const hints=`<p class="hint">· ${esc(P.era)}</p><p class="hint">· ${esc(P.job)}${P.job.match(/[가-힣]$/)&&((P.job.slice(-1).charCodeAt(0)-0xAC00)%28)&&((P.job.slice(-1).charCodeAt(0)-0xAC00)%28)!==8?'으로':'로'} 살았습니다</p><p class="hint">· ${P.anchor.year}년 ${esc(P.anchor.title)}의 시대</p>`;
     show(`<div class="slide"><p class="counter">${i+1} / ${list.length} · ${['누구의 전생일까요?','전생 공개','현생 공개'][stage]}</p>
       ${stage===0?`<div style="margin-top:16px">${hints}</div>`:''}
-      ${stage>=1?`<div class="who" style="margin-top:16px"><div class="portrait" style="width:140px;height:176px">${portrait(c)}</div><div>${c.rarity?`<span class="verdict g-${c.rarity.grade}" style="background:var(--gc);font-family:var(--arc);font-size:14px">${c.rarity.grade}</span>`:''}<div class="big neon">${esc(c.name)}</div><div class="work" style="font-size:20px">${esc(c.work)}</div><p class="hint">${esc(r.verdict||'')}</p><p class="hint muted">${(r.composition||[]).map(x=>esc(x.name)+' '+x.pct+'%').join(' · ')}</p></div></div>`:''}
-      ${stage>=2?`<p class="big" style="font-size:40px;margin-top:20px">${esc(r.nick)}</p>${r.karma?`<p class="hint muted">${esc(r.karma)}</p>`:''}${r.bonds.length?`<p class="hint">전생 인연: ${r.bonds.map(b=>esc(b.nick)+'('+esc(b.name)+')').join(', ')}</p>`:''}${r.soulmate?`<p class="hint">소울메이트: ${esc(r.soulmate.nick)} · 라이벌: ${esc(r.rival?.nick||'-')}</p>`:''}`:''}
+      ${stage>=1?`<div style="margin-top:16px"><img src="${pxOf(r)}" alt="" style="width:100%;max-width:640px;display:block;margin:0 auto 12px;border:3px solid #07031a;box-shadow:0 0 0 2px var(--neon)"><span class="verdict g-${P.grade}" style="background:var(--gc);font-family:var(--arc);font-size:14px">${P.grade}</span><div class="big neon">${esc(P.name)}</div><div class="work" style="font-size:20px">${P.by}~${P.dy} · ${esc(P.job)} · ${esc(P.place)}</div>${end?`<p class="hint">${esc(end.core||end.text)}</p>`:''}</div>`:''}
+      ${stage>=2?`<p class="big" style="font-size:40px;margin-top:20px">${esc(r.nick)}</p>${M.bonds.length?`<p class="hint">전생 인연: ${M.bonds.map(b=>esc(b.nick)+'('+esc(b.type)+')').join(', ')}</p>`:''}${M.soulmate?`<p class="hint">소울메이트: ${esc(M.soulmate.nick)}${M.rival?` · 라이벌: ${esc(M.rival.nick)}`:''}</p>`:''}`:''}
       <div class="row"><button class="btn ghost" id="pv">이전</button><button class="btn" id="nx">다음</button><button class="btn ghost" id="bv">인연 지도</button></div></div>`,true);
     $('#nx').onclick=next; $('#pv').onclick=prev; $('#bv').onclick=bondsView;
   }
   function next(){ if(stage<2) stage++; else {i++;stage=0;} render(); }
   function prev(){ if(stage>0) stage--; else if(i>0){i--;stage=2;} render(); }
   function bondsView(){
-    const by={}; d.results.forEach(r=>(by[r.char.work]=by[r.char.work]||[]).push(r));
-    const groups=Object.entries(by).filter(([,v])=>v.length>1).sort((a,b)=>b[1].length-a[1].length);
-    show(`<h1 style="font-size:28px">전생 인연 지도 <small>같은 작품에서 만났던 영혼들</small></h1>
-      <div class="bonds" style="margin-top:20px">${groups.map(([w,v])=>`<div class="bond"><p class="neon pixel" style="font-size:13px">${esc(w)}</p>${v.map(r=>`<p style="margin:4px 0">${esc(r.nick)} — ${esc(r.char.name)}</p>`).join('')}</div>`).join('')||'<p class="muted">아직 인연이 없습니다.</p>'}</div>
+    show(`<h1 style="font-size:28px">전생 인연 지도 <small>같은 시대를 살았던 영혼들</small></h1>
+      <div class="eramap">${MAP.eras.map(g=>`<div class="era"><p class="neon pixel" style="font-size:13px">${esc(g.era)}</p><p class="muted" style="margin:0 0 6px">${g.anchor.year}년 ${esc(g.anchor.title)}</p>${g.people.map(x=>`<p style="margin:4px 0">${esc(x.nick)} — ${esc(x.name)} · ${esc(x.job)} <span class="muted">(${esc(x.place)})</span></p>`).join('')}</div>`).join('')||'<p class="muted">아직 같은 시대에서 만난 영혼이 없습니다.</p>'}</div>
+      ${MAP.relay.length?`<h2 style="font-size:20px;margin-top:24px">영혼의 바통 <small>한 생이 끝날 무렵 다른 생이 시작된 사이</small></h2>${MAP.relay.map(x=>`<p style="margin:4px 0">${esc(x.from)}(${esc(x.fromName)}, ${x.dy}년 떠남) → ${esc(x.to)}(${esc(x.toName)}, ${x.by}년 태어남)</p>`).join('')}`:''}
       <div class="row"><button class="btn ghost" id="bk2">발표로 돌아가기</button></div>`,true);
     $('#bk2').onclick=()=>{ if(i>=list.length) i=list.length-1; render(); };
   }

@@ -2,13 +2,14 @@ import fs from 'fs';
 import path from 'path';
 import { buildTale } from '../lib/tale.js';
 import { planPast, renderPast } from '../lib/past.js';
+import { meetOf, meetMap } from '../lib/meet.js';
 import { planLife, renderLife, lifeCard, echoLine, PACK_IDS } from '../lib/life.js';
 let ECHO={}; try{ ECHO=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','echo.json'),'utf-8')); }catch{}
 import { buildProfile, rank, wobble, buildResult, LOOK_OPTS, composition } from '../lib/match.js';
 import { cmd, getJSON, setJSON, usingMemory, misconfigured } from '../lib/store.js';
 import { ORDER, JOBS, MBTI } from '../lib/questions.js';
 
-export const VERSION='v3.4';
+export const VERSION='v3.6';
 let OVR={};   // 관리자 화면에서 붙여 넣은 이미지 주소 (Redis img:overrides)
 // 저장소에 포함된 캐릭터 이미지(data/imgpack_*.json)가 있으면 그걸 먼저 쓴다 → /api/img?id=<id> 로 같은 도메인에서 내려줌
 let PACK={}; try{ PACK=JSON.parse(fs.readFileSync(path.join(process.cwd(),'data','imgpack_index.json'),'utf-8')); }catch{}
@@ -64,6 +65,7 @@ function view(sub, subs, idx){
     const rep=Number.isInteger(sub.rep)&&lives[sub.rep]?sub.rep:0, i=Number.isInteger(idx)&&lives[idx]?idx:rep;
     r.life=renderLife(lives[i],sub); r.lifeIdx=i; r.repIdx=rep; r.dex=lives.map(lifeCard); r.packTotal=PACK_IDS.length;
     r.echo=echoLine(lives[i], c.name, ECHO[c.id]);
+    if (subs) r.meet=meetOf(sub, subs);
     if (subs) r.lifeCross=subs.filter(o=>o.nick!==sub.nick&&o.lives?.length).map(o=>({o,L:o.lives[Number.isInteger(o.rep)?o.rep:0]})).filter(x=>x.L&&x.L.pack===lives[rep].pack)
       .map(({o,L})=>{ const c=lifeCard(L); return c&&{nick:o.nick,name:c.name,job:c.job,by:c.by}; }).filter(Boolean);
   }
@@ -153,7 +155,7 @@ export default async function handler(req,res){
       const admin=cleanNick(q.adminCode)===ADMIN;
       if (!admin && !(await isRevealed())) return res.status(403).json({error:'아직 공개 전입니다.'});
       const subs=await allSubs();
-      return res.json({results:subs.map(s=>view(s,subs)).filter(Boolean)});
+      return res.json({results:subs.map(s=>view(s,subs)).filter(Boolean), map:meetMap(subs)});
     }
     if (action==='admin'){
       if (cleanNick(q.adminCode)!==ADMIN) return res.status(401).json({error:'관리자 이름이 아닙니다.'});
